@@ -1,0 +1,14 @@
+.cerberusLogo {
+    height: 25vh;
+    margin: 1rem;
+    border: #162333;
+
+}
+
+.HeaderLogo {
+    background-color: #162333;
+    width: 100vw;
+    border-radius: 0 0 10px 10px;
+    animation: bounceInDown; /* referring directly to the animation's @keyframe declaration */
+    animation-duration: 2s; /* don't forget to set a duration! */
+}

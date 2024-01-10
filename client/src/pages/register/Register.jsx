@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
+import HeaderLogo from '../../components/header logo/HeaderLogo';
 
 const Register = () => {
   const { signup } = useAuth();
@@ -31,6 +32,7 @@ const Register = () => {
 
   return (
     <Container>
+    <HeaderLogo></HeaderLogo>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form onSubmit={handleSubmit}>
