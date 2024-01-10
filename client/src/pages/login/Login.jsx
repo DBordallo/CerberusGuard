@@ -42,17 +42,17 @@ const Login = () => {
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>Contraseña</Form.Label>
+              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Contraseña"
+                placeholder="Password"
                 name="password"
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Button variant="primary" type="submit">
-              Iniciar sesión
+              LOGIN
             </Button>
           </Form>
         </Col>

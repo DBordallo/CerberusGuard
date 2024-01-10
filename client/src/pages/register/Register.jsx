@@ -35,20 +35,20 @@ const Register = () => {
         <Col xs={12} md={6}>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="formProfileImage">
-              <Form.Label>Imagen de perfil</Form.Label>
+              <Form.Label>Profile image</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="URL de la imagen"
+                placeholder="Select file"
                 name="profileImage"
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Form.Group controlId="formFullName">
-              <Form.Label>Nombre y apellidos</Form.Label>
+              <Form.Label>Name and Surname</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Nombre completo"
+                placeholder="Complete name"
                 name="fullName"
                 onChange={handleChange}
               />
@@ -65,37 +65,37 @@ const Register = () => {
             </Form.Group>
 
             <Form.Group controlId="formPhone">
-              <Form.Label>Teléfono</Form.Label>
+              <Form.Label>Phone</Form.Label>
               <Form.Control
                 type="tel"
-                placeholder="Teléfono"
+                placeholder="Your telephone number"
                 name="phone"
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Form.Group controlId="formPassword">
-              <Form.Label>Contraseña</Form.Label>
+              <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Contraseña"
+                placeholder="Password"
                 name="password"
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Form.Group controlId="formConfirmPassword">
-              <Form.Label>Confirmar Contraseña</Form.Label>
+              <Form.Label>Confirm password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Confirmar Contraseña"
+                placeholder="Confirm password"
                 name="confirmPassword"
                 onChange={handleChange}
               />
             </Form.Group>
 
             <Button variant="primary" type="submit">
-              Registrarse
+              Register
             </Button>
           </Form>
         </Col>
