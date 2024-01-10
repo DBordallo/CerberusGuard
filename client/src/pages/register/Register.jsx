@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 
 const Register = () => {
+  const { signup } = useAuth();
   const [formData, setFormData] = useState({
     profileImage: '',
     fullName: '',
@@ -20,21 +21,10 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch('URL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (response.ok) {
-        console.log('Registro exitoso');
-      } else {
-        console.error('Error en el registro');
-      }
+      await signup(formData.email, formData.password);
+      console.log('Registro exitoso');
     } catch (error) {
-      console.error('Error en la solicitud fetch', error);
+      console.error('Error en el registro', error);
     }
   };
 

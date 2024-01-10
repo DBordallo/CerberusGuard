@@ -1,9 +1,12 @@
 import { Outlet } from 'react-router-dom'
+import { AuthProvider } from '../authcontext/AuthContext'
 
 function Root() {
   return (
     <>
-        <Outlet />
+        <AuthProvider>
+            <Outlet />
+        </AuthProvider>
     </>
   )
 }

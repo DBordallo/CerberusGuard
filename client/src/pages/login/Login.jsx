@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+import { useAuth } from '../../authcontext/AuthContext';
 
 const Login = () => {
+  const {login} = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -15,22 +17,12 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch('URL', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
 
-      if (response.ok) {
-        console.log('Inicio de sesión exitoso');
-      } else {
-        console.error('Error en el inicio de sesión');
-      }
+    try {
+      await login(formData.email, formData.password);
+      console.log('Inicio de sesión exitoso');
     } catch (error) {
-      console.error('Error en la solicitud fetch', error);
+      console.error('Error en el inicio de sesión', error);
     }
   };
 
