@@ -102,12 +102,14 @@ const Register = () => {
               />
             </Form.Group>
 
+            <Container className='registerBtns'>
             <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='registerBtn' type="submit">
               Register
             </Button>
             <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='signInBtn' variant="primary" type="submit">
               <Link to="/">Have an account? Sign In</Link>
             </Button>
+            </Container>
           </Form>
         </Col>
       </Row>

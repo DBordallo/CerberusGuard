@@ -9,7 +9,7 @@ function HeaderLogo() {
   return (
 
     <Container className="HeaderLogo">
-     <Image src={cerberusLogo}  className="cerberusLogo" />;
+     <Image style={{ display: "inline-block"}} src={cerberusLogo}  className="cerberusLogo" />;
      </Container>
   
   )
