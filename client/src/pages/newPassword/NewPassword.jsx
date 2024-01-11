@@ -32,6 +32,27 @@ function NewPassword() {
     setGeneratedPassword(newPassword);
   };
 
+  const handleSavePassword = () => {
+    fetch('/api/savePassword', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        socialNetwork: selectedSocialNetwork,
+        name,
+        email,
+        generatedPassword,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Contraseña y información del usuario guardadas exitosamente:', data);      })
+      .catch(error => {
+        console.error('Error al guardar la contraseña y la información del usuario:', error);
+      });
+  };
+
   return (
     <Container>
       <Row className="justify-content-md-center">
@@ -77,7 +98,9 @@ function NewPassword() {
             </Form.Group>
 
             <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
-
+            <Button variant="primary" onClick={handleSavePassword}>
+              Save
+            </Button>
           </Form>
         </Col>
       </Row>
