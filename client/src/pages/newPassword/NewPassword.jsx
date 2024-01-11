@@ -10,8 +10,7 @@ function NewPassword() {
   const [generatedPassword, setGeneratedPassword] = useState('');
 
   useEffect(() => {
-    // Fetch para obtener la lista de redes sociales desde el backend
-    fetch('/api/socialNetworks') // Ajusta la ruta según la configuración de tu backend
+    fetch('/api/socialNetworks')
       .then(response => response.json())
       .then(data => setSocialNetworks(data))
       .catch(error => console.error('Error fetching social networks:', error));
