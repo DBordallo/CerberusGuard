@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
 import HeaderLogo from '../../components/headerLogo/HeaderLogo';
+import { Link } from "react-router-dom";
 import "./Register.css"
 
 const Register = () => {
@@ -105,7 +106,7 @@ const Register = () => {
               Register
             </Button>
             <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='signInBtn' variant="primary" type="submit">
-              Have an account? Sign In
+              <Link to="/">Have an account? Sign In</Link>
             </Button>
           </Form>
         </Col>
