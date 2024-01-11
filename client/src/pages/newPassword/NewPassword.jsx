@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Container, Row, Col, Button } from 'react-bootstrap';
 import PasswordGenerator from '../../components/passwordGenerator/PasswordGenerator';
+import HeaderLogoText from '../../components/headerLogo+text/HeaderLogoText';
+import "./NewPassword.css"
 
 function NewPassword() {
   const [socialNetworks, setSocialNetworks] = useState([]);
@@ -55,6 +57,9 @@ function NewPassword() {
 
   return (
     <Container>
+      <HeaderLogoText></HeaderLogoText>
+    
+    <Container className='createPasswordForm'>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form>
@@ -104,6 +109,7 @@ function NewPassword() {
           </Form>
         </Col>
       </Row>
+    </Container>
     </Container>
   );
 }

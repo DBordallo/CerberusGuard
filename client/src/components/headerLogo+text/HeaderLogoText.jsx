@@ -4,16 +4,16 @@ import Container from 'react-bootstrap/Container';
 import cerberusLogo from "../../assets/cerberusLogo.jpg"
 import 'animate.css'
 
-function HeaderLogo() {
+function HeaderLogoText() {
     
   return (
 
-    <Container className="HeaderLogo">
+    <Container className="HeaderLogoText">
      <Image src={cerberusLogo}  className="cerberusLogo" />;
-     <h2>Password</h2>
+     <h2 className="pageTittle" style={{ color:"white"}}>New Password</h2>
      </Container>
   
   )
 }
 
-export default HeaderLogo;
+export default HeaderLogoText;
