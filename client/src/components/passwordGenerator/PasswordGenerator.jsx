@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const PasswordGenerator = () => {
+const PasswordGenerator = ({ onGeneratePassword }) => {
   const [password, setPassword] = useState('');
   const [length, setLength] = useState(8);
   const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -26,6 +26,7 @@ const PasswordGenerator = () => {
 
     setPassword(newPassword);
     setIsCopied(false);
+    onGeneratePassword(newPassword);
   };
 
   const copyToClipboard = () => {
