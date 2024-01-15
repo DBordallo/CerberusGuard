@@ -92,13 +92,13 @@ const PasswordGenerator = ({ onGeneratePassword }) => {
         </button>
       </form>
       {password && (
-        <div>
-          <h3>Generated Password:</h3>
-          <div>{password}</div>
-          <button type="button" onClick={copyToClipboard}>
+        <div className='generatedPassword'>
+          <h3 style={{textAlign:"center"}}>Generated Password:</h3>
+          <div style={{textAlign:"center", fontSize:"large"}}>{password}</div>
+          <button style={{margin:"0 4rem 0 4rem"}} className='generateBtn' type="button" onClick={copyToClipboard}>
             Copy to Clipboard
           </button>
-          {isCopied && <div>Successfully copied to clipboard!</div>}
+          {isCopied && <div style={{textAlign:"center"}}>Successfully copied to clipboard!</div>}
         </div>
       )}
     </div>

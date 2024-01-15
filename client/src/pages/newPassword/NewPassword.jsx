@@ -103,7 +103,7 @@ function NewPassword() {
             </Form.Group>
 
             <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
-            <Button variant="primary" onClick={handleSavePassword}>
+            <Button style={{marginTop:"1rem"}} variant="primary" onClick={handleSavePassword}>
               Save
             </Button>
           </Form>
