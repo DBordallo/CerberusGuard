@@ -31,7 +31,7 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/addacount",
+                path: "/addaccount",
                 element: <NewPassword />,
             },
         ]
