@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import "./PasswordGenerator.css"
 
 const PasswordGenerator = ({ onGeneratePassword }) => {
   const [password, setPassword] = useState('');
@@ -36,9 +37,9 @@ const PasswordGenerator = ({ onGeneratePassword }) => {
 
   return (
     <div>
-      <h2>Password Generator</h2>
-      <form>
-        <label>
+      <h2 style={{textAlign:"center", marginTop:"1rem"}}>Password Generator</h2>
+      <form className='passwordGenerator'>
+        <label className='checkbox'>
           Length:
           <input
             type="number"
@@ -49,40 +50,44 @@ const PasswordGenerator = ({ onGeneratePassword }) => {
           />
         </label>
         <br />
-        <label>
+        <label  className='checkbox'>
           Include Uppercase:
           <input
+            className='box'
             type="checkbox"
             checked={includeUppercase}
             onChange={() => setIncludeUppercase(!includeUppercase)}
           />
         </label>
-        <label>
+        <label className='checkbox'>
           Include Lowercase:
           <input
+          className='box'
             type="checkbox"
             checked={includeLowercase}
             onChange={() => setIncludeLowercase(!includeLowercase)}
           />
         </label>
-        <label>
+        <label className='checkbox'>
           Include Numbers:
           <input
+          className='box'
             type="checkbox"
             checked={includeNumbers}
             onChange={() => setIncludeNumbers(!includeNumbers)}
           />
         </label>
-        <label>
+        <label className='checkbox'>
           Include Special Characters:
           <input
+          className='box'
             type="checkbox"
             checked={includeSpecialChars}
             onChange={() => setIncludeSpecialChars(!includeSpecialChars)}
           />
         </label>
         <br />
-        <button type="button" onClick={generatePassword}>
+        <button className='generateBtn' type="button" onClick={generatePassword}>
           Generate Password
         </button>
       </form>

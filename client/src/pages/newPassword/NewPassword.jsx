@@ -56,13 +56,13 @@ function NewPassword() {
   };
 
   return (
-    <Container>
+    <Container className='newPassword'>
       <HeaderLogoText></HeaderLogoText>
     
     <Container className='createPasswordForm'>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
-          <Form>
+          <Form className='createPasswordForm'>
             <Form.Select
               aria-label="Select social network"
               value={selectedSocialNetwork}
@@ -85,7 +85,7 @@ function NewPassword() {
               </Form.Group>
             )}
 
-            <Form.Group controlId="controlName">
+            <Form.Group controlId="controlName" className='controlName'>
               <Form.Control
                 type="text"
                 placeholder="Name"
@@ -93,7 +93,7 @@ function NewPassword() {
               />
             </Form.Group>
 
-            <Form.Group controlId="controlEmail">
+            <Form.Group controlId="controlEmail" className='controlEmail'>
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
