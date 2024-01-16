@@ -6,6 +6,7 @@ import Home from "../pages/home/Home";
 import Login from "../pages/login/Login"
 import Register from "../pages/register/Register";
 import NewPassword from "../pages/newPassword/NewPassword";
+import UserHome from "../pages/user/userHome/UserHome";
 
 const router = createBrowserRouter([
     {
@@ -24,10 +25,7 @@ const router = createBrowserRouter([
             {
                 path: "/home",
                 element: (
-                    <ProtectedRoute> 
-                        <Home />
-                    </ProtectedRoute>
-                
+                        <UserHome />
                 ),
             },
             {
