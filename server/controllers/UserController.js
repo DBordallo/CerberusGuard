@@ -3,25 +3,29 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import UserModel from '../models/UserModel.js';
+import validateUserInput from '../middlewares/validationMiddleware.js';
 dotenv.config();
 
 
 //POST - CREATE OF CRUD
 
 export const createUser = async (req, res) => {
-    try{
-        await UserModel.create(req.body)
-        res.status(200).json({message: "This User has been added successfully!"})
-    }catch (error){
-        res.status(500).json({message: error})
-    }
-}
+    // Invoke validateUserInput middleware here
+    validateUserInput(req, res, async () => {
+        try {
+            await UserModel.create(req.body);
+            res.status(200).json({ message: 'This User has been added successfully!' });
+        } catch (error) {
+            res.status(500).json({ message: error });
+        }
+    });
+};
 
 // GET - REVIEW OF CRUD
 
 export const getAllUsers = async (_req, res) => {
     try{
-        const users = await UserModel.findAll()
+        const users = await UserModel.findimportAll()
         res.json(users);
     }catch (error){
         res.status(500).json({
@@ -53,9 +57,12 @@ export const updateUser = async (req, res) => {
         if (!user) {
             return res.status(500).json({ message: 'User not found' });
         }
-        await UserModel.update(req.body, {where: {id:req.params.id}} );
-        res.status(201).json({ message: 'The User has been updated successfully!' });
-    } catch (error) {console.error(error);
+        validateUserInput(req, res, async () => {
+            await UserModel.update(req.body, { where: { id: req.params.id } });
+            res.status(201).json({ message: 'The User has been updated successfully!' });
+        });
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.errors });
     }
 };
