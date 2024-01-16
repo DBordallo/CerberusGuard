@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
+import Nav from '../../components/Nav/Nav';
+import homeWhite from '../../assets/homeWhite.png';
+import passwordGray from '../../assets/passwordGray.png';
+import profileGray from '../../assets/profileGray.png';
+
 
 const Login = () => {
   const {login} = useAuth()
@@ -57,6 +62,7 @@ const Login = () => {
           </Form>
         </Col>
       </Row>
+      <Nav home={homeWhite} password={passwordGray} profile={profileGray}></Nav>
     </Container>
   );
 };
