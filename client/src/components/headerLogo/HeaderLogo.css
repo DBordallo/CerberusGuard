@@ -1,11 +1,16 @@
 .cerberusLogo {
+    justify-content: center;
     height: 25vh;
     margin: 1rem;
     border: #162333;
+    align-items: center;
 
 }
 
 .HeaderLogo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: #162333;
     width: 100vw;
     border-radius: 0 0 10px 10px;

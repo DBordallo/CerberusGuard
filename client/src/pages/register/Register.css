@@ -1,0 +1,9 @@
+.registerForm {
+    width: 100vw;
+}
+
+.registerBtns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

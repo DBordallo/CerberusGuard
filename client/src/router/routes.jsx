@@ -5,6 +5,7 @@ import { ProtectedRoute } from "../authcontext/ProtectedRoute";
 import Home from "../pages/home/Home";
 import Login from "../pages/login/Login"
 import Register from "../pages/register/Register";
+import NewPassword from "../pages/newPassword/NewPassword";
 
 const router = createBrowserRouter([
     {
@@ -19,8 +20,8 @@ const router = createBrowserRouter([
             {
                 path: "/register",
                 element: <Register />,
-              },
-              {
+            },
+            {
                 path: "/home",
                 element: (
                     <ProtectedRoute> 
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
                     </ProtectedRoute>
                 
                 ),
-              },
+            },
+            {
+                path: "/addaccount",
+                element: <NewPassword />,
+            },
         ]
     }
 ])

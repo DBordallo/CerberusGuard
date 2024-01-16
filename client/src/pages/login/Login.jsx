@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
-import Nav from '../../components/Nav/Nav';
-import homeWhite from '../../assets/homeWhite.png';
-import passwordGray from '../../assets/passwordGray.png';
-import profileGray from '../../assets/profileGray.png';
-
+import HeaderLogo from '../../components/headerLogo/HeaderLogo';
+import { Link } from "react-router-dom";
+import "./Login.css"
 
 const Login = () => {
   const {login} = useAuth()
@@ -32,12 +30,14 @@ const Login = () => {
   };
 
   return (
-    <Container>
+    <Container className='logInContainer'>
+    <HeaderLogo></HeaderLogo>
+    <Container className='logInForm'>
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="formEmail">
-              <Form.Label>Email</Form.Label>
+            <Form.Group style={{ marginBottom: "2rem"}} controlId="formEmail">
+              <Form.Label style={{ color: "white"}}>Email</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Email"
@@ -46,8 +46,8 @@ const Login = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="formPassword">
-              <Form.Label>Password</Form.Label>
+            <Form.Group style={{ marginBottom: "2rem"}} controlId="formPassword">
+              <Form.Label style={{ color: "white"}}>Password</Form.Label>
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -55,14 +55,18 @@ const Login = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-
-            <Button variant="primary" type="submit">
+          <Container className='logInBtns'>
+            <Button className="loginBtn" variant="primary" type="submit">
               LOGIN
             </Button>
+            <Button className="loginBtn" variant="primary" type="submit">
+              <Link to="/register">You don´t have an account?</Link>
+            </Button>
+            </Container>
           </Form>
         </Col>
       </Row>
-      <Nav home={homeWhite} password={passwordGray} profile={profileGray}></Nav>
+    </Container>
     </Container>
   );
 };

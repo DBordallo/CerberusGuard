@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
-import HeaderLogo from '../../components/header logo/HeaderLogo';
+import HeaderLogo from '../../components/headerLogo/HeaderLogo';
+import { Link } from "react-router-dom";
+import "./Register.css"
 
 const Register = () => {
   const { signup } = useAuth();
@@ -31,8 +33,12 @@ const Register = () => {
   };
 
   return (
-    <Container>
-    <HeaderLogo></HeaderLogo>
+    <Container style={{ margin: "0", padding: "0" }}>
+     <HeaderLogo>  
+     </HeaderLogo>
+     <h1 style={{ color: "#162333" }}>Register</h1>
+    <Container className='registerForm'>
+   
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form onSubmit={handleSubmit}>
@@ -96,12 +102,18 @@ const Register = () => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit">
+            <Container className='registerBtns'>
+            <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='registerBtn' type="submit">
               Register
             </Button>
+            <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='signInBtn' variant="primary" type="submit">
+              <Link to="/">Have an account? Sign In</Link>
+            </Button>
+            </Container>
           </Form>
         </Col>
       </Row>
+    </Container>
     </Container>
   );
 };
