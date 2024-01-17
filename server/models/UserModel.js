@@ -12,7 +12,7 @@ const UserModel = db.define("users", {
     },
     profile_image:{type:DataTypes.STRING},
     user_name:{type:DataTypes.STRING},
-    user_telephone:{type:DataTypes.String}, 
+    user_telephone:{type:DataTypes.STRING}, 
     user_email:{type:DataTypes.STRING}, 
     user_password:{type:DataTypes.STRING},
     roles:{type:DataTypes.STRING}, 
