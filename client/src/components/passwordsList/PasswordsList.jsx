@@ -57,16 +57,18 @@ const apiUrl = [
           {getCurrentPageData().map((news) => (
             <li key={news.id} className="PassItems">
               <div className="PassInfo">
-                <img src={news.image} alt={`Imagen de ${news.title}`} style={{ maxWidth: "100px" }} />
+                <img src={news.image} alt={`Imagen de ${news.title}`} style={{ width:"3rem", maxWidth: "100px"}} />
+              <div className="insideList" >
                 <h3 className="titlePasslist">{news.title}</h3>
                 <p className="namePasslist">{news.name}</p>
                 <p className="emailPasslist">{news.email}</p>
+                </div>
                 <button className="Btn-more">...</button>
               </div>
             </li>
           ))}
         </ul>
-        <Pagination
+        <Pagination className="pagination"
           totalItems={newsList.length}
           itemsPerPage={pageSize}
           onPageChange={setCurrentPage}
