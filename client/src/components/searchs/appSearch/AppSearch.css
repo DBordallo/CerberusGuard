@@ -1,3 +1,4 @@
+
 .lupa {
     width: 2rem;
     height: 2rem;
@@ -11,8 +12,11 @@
 }
 
 .searchImput {
+    width: 15rem;
+    align-items: center;
     padding-bottom: 4px;
     border: none;
     height: 2rem;
     border-radius: 5px 0 0 5px;
 }
+
