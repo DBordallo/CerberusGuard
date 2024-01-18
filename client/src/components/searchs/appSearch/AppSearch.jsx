@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Image from 'react-bootstrap/Image';
+import lupa from "../../../assets/lupa.png"
+import "./AppSearch.css"
 
 const AppSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,14 +19,15 @@ const AppSearch = () => {
 
   return (
     <div>
-      <h2>Password Manager</h2>
+      <h2 style={{textAlign:"center"}}>Password Manager</h2>
       <input
+        className='searchImput'
         type="text"
         placeholder="Search by app name"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button onClick={handleSearch}>Search</button>
+      <button className="lupaBtn" onClick={handleSearch}><Image src={lupa}  className="lupa" /></button>
 
       <ul>
         {searchResults.map((password) => (
