@@ -7,6 +7,8 @@
     height: 100%;
 }
 
+
+
 .headerSearch{
     background-color: #162333;
     width: 100vw;
@@ -27,12 +29,33 @@
 
 .typeBtn{
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin: 2rem;
+    padding-bottom: 1rem;
     background-color: white;
     color: #162333;
     border-radius: 10px;
-    height: 5rem;
-    width: 5rem;
+    height: 6rem;
+    width: 5.5rem;
 }
+
+.PassInfo{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.insideList{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon{
+    width: 2rem;
+}
+
+.s

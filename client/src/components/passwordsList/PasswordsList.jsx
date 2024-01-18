@@ -63,7 +63,7 @@ const apiUrl = [
                 <p className="namePasslist">{news.name}</p>
                 <p className="emailPasslist">{news.email}</p>
                 </div>
-                <button className="Btn-more">...</button>
+                <button className="Btn-more">+</button>
               </div>
             </li>
           ))}
