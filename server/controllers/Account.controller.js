@@ -1,5 +1,6 @@
 import Accounts from "../models/AccountModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
+import { uploadImage } from "../utils/cloudinary.js";
 
 const handleServerError = (res, error) => {
     console.error(error);
@@ -16,16 +17,40 @@ export const getAccounts = async (req, res) => {
 };
 
 export const createAccount = async (req, res) => {
-    const { name, email, password } = req.body;
+    const { app_name, email, password, img } = req.body;
 
     try {
-        const passwordHash = await hashPassword(password);
-        const newAccount = await Accounts.create({ name, email, password: passwordHash });
+        if (!img) {
+            return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
+        }
+
+        const AccImage = {
+            public_id: '',
+            secure_url: '',
+        };
+
+        const result = await uploadImage(`data:image/jpeg;base64,${img}`);
+
+        if (result) {
+            AccImage.public_id = result.public_id;
+            AccImage.secure_url = result.secure_url;
+        }
+        
+
+        const newAccountData = {
+            app_name:"2l",
+            email: "hello@gmail.com",
+            password: "adsadsa:",
+            img: AccImage,
+        };
+
+        const newAccount = await Accounts.create(newAccountData);
         res.json(newAccount);
     } catch (error) {
         handleServerError(res, error);
     }
 };
+
 
 export const getAccount = async (req, res) => {
     const { id } = req.params;

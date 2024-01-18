@@ -10,6 +10,10 @@ const Accounts = db.define('Account', {
     primaryKey: true,
     allowNull: false,
   },
+  img: {
+    type: DataTypes.JSON,
+    allowNull: true,
+  },
   app_name: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -30,10 +34,6 @@ const Accounts = db.define('Account', {
       const hashedPassword = bcrypt.hashSync(value, salt);
       this.setDataValue('password', hashedPassword);
     },
-  },
-  img: {
-    type: DataTypes.STRING,
-    allowNull: true,
   },
 }, {
   timestamps: true, 
