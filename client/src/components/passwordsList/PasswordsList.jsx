@@ -30,6 +30,48 @@ const apiUrl = [
         "name": "Pepito3",
         "email": "pepito3@mail.com"
     },
+    {
+      "id": 4,
+      "title": "Instagram2",
+      "image": `${New1}`,
+      "name": "Pepito",
+      "email": "pepito@mail.com"
+    },
+    {
+        "id": 5,
+        "title": "Facebook2",
+        "image": `${New2}`,
+        "name": "Pepito2",
+        "email": "pepito2@mail.com"
+    },
+    {
+        "id": 6,
+        "title": "X2",
+        "image": `${New3}`,
+        "name": "Pepito3",
+        "email": "pepito3@mail.com"
+    },
+    {
+      "id": 7,
+      "title": "Instagram3",
+      "image": `${New1}`,
+      "name": "Pepito",
+      "email": "pepito@mail.com"
+    },
+    {
+        "id": 8,
+        "title": "Facebook3",
+        "image": `${New2}`,
+        "name": "Pepito2",
+        "email": "pepito2@mail.com"
+    },
+    {
+        "id": 9,
+        "title": "X3",
+        "image": `${New3}`,
+        "name": "Pepito3",
+        "email": "pepito3@mail.com"
+    },
   ];
   
   const PasswordList = () => {
@@ -63,7 +105,7 @@ const apiUrl = [
                 <p className="namePasslist">{news.name}</p>
                 <p className="emailPasslist">{news.email}</p>
                 </div>
-                <button className="Btn-more">+</button>
+                <button className="Btn-more">...</button>
               </div>
             </li>
           ))}
