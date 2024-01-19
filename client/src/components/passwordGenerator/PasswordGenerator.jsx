@@ -43,7 +43,7 @@ const PasswordGenerator = ({ onGeneratePassword }) => {
           Length:
           <input
             type="number"
-            min="8"
+            min="10"
             max="204"
             value={length}
             onChange={(e) => setLength(Math.max(8, Math.min(204, e.target.value)))}
