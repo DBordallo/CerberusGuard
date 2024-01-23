@@ -7,9 +7,11 @@ export function ProtectedRoute({ children }) {
   if (loading)
     return (
       <Spinner
-        animation="border"
-        variant="danger"
+        animation="grow"
+        variant="primary"
         style={{
+          width:"5rem",
+          height:"5rem",
           display: "block",
           position: "fixed",
           top: "200px",
