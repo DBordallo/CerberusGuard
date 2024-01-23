@@ -33,9 +33,16 @@ const router = createBrowserRouter([
                 path: "/addaccount",
                 element: <NewPassword />,
             },
+
+            //ADMIN
+
             {
                 path: "/guard",
-                element: <HomeCerberus />,
+                //element:(
+                // <ProtectedRoute>
+                    element: <HomeCerberus />
+                // </ProtectedRoute>
+               // ),
             },
         ]
     }
