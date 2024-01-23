@@ -1,6 +1,6 @@
 import Accounts from "../models/AccountModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
-import { uploadImage } from "../utils/cloudinary.js";
+import { uploadImage, deleteImage } from "../utils/cloudinary.js";
 
 const handleServerError = (res, error) => {
     console.error(error);
@@ -92,13 +92,19 @@ export const deleteAccount = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const deletedCount = await Accounts.destroy({ where: { id } });
+        const account = await Accounts.findByPk(id);
 
-        if (deletedCount > 0) {
-            res.status(204).json({ message: 'Account deleted successfully' });
-        } else {
-            res.status(404).json({ message: 'Account not found' });
+        if (!account) {
+            return res.status(404).json({ message: 'Account not found' });
         }
+
+        if (account.image?.public_id) {
+            await deleteImage(account.image.public_id);
+        }
+
+        await account.destroy();
+
+        res.status(204).json({ message: 'Account deleted successfully' });
     } catch (error) {
         handleServerError(res, error);
     }
