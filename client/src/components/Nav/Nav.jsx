@@ -5,7 +5,7 @@ import './Nav.css'
 
 function Nav({home,password,profile}){
     return(
-        <nav className="navBar">
+    <nav className="navBar">
       <Link to="/" className="navButton homeButton">
         <img className="buttonImg" src={home} alt="Image of the Home Icon" />
       </Link>
