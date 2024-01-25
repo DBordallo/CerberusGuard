@@ -1,0 +1,16 @@
+.headerContainer{
+    background-color: #162333;
+    width: 100.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0 0 1.2rem 1.2rem;
+}
+.headerLogo{
+    width: 25vw;
+    padding-top: 0.6rem;
+}
+.headerTitle{
+    color: white;
+}

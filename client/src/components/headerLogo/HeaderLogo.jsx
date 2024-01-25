@@ -10,7 +10,7 @@ function HeaderLogo() {
 
     <Container className="HeaderLogo">
      <Image src={cerberusLogo}  className="cerberusLogo" />;
-     </Container>
+    </Container>
   
   )
 }
