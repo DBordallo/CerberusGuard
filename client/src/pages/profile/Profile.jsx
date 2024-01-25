@@ -11,7 +11,6 @@ function Profile(){
     return(
         <>
             <Header sectionTitle = "Profile"></Header>
-            <h1>Hola</h1>
             <UserInfo></UserInfo>
             <Nav home = {homeGray} password={passwordGray} profile ={profileWhite} ></Nav>
         </>
