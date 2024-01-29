@@ -8,12 +8,11 @@ import "./Register.css"
 const Register = () => {
   const { signup } = useAuth();
   const [formData, setFormData] = useState({
-    profileImage: '',
-    fullName: '',
-    email: '',
-    phone: '',
-    password: '',
-    confirmPassword: '',
+    profile_image: "",
+    user_name:"",
+    user_telephone: "",
+    user_email: "",
+    user_password: ""
   });
 
   const handleChange = (e) => {
@@ -25,7 +24,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await signup(formData.profileImage, formData.fullName, formData.email, formData.phone, formData.password);
+      await signup(formData.profile_image, formData.user_name, formData.user_email, formData.user_telephone, formData.user_password);
       console.log('Registro exitoso');
     } catch (error) {
       console.error('Error en el registro', error);
@@ -48,7 +47,7 @@ const Register = () => {
               <Form.Control
                 type="file"
                 placeholder="Select file"
-                name="profileImage"
+                name="profile_image"
                 onChange={handleChange}
               />
             </Form.Group>
@@ -58,7 +57,7 @@ const Register = () => {
               <Form.Control
                 type="text"
                 placeholder="Complete name"
-                name="fullName"
+                name="user_name"
                 onChange={handleChange}
               />
             </Form.Group>
@@ -68,7 +67,7 @@ const Register = () => {
               <Form.Control
                 type="email"
                 placeholder="Email"
-                name="email"
+                name="user_email"
                 onChange={handleChange}
               />
             </Form.Group>
@@ -78,7 +77,7 @@ const Register = () => {
               <Form.Control
                 type="tel"
                 placeholder="Your telephone number"
-                name="phone"
+                name="user_telephone"
                 onChange={handleChange}
               />
             </Form.Group>
@@ -88,7 +87,7 @@ const Register = () => {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                name="password"
+                name="user_password"
                 onChange={handleChange}
               />
             </Form.Group>

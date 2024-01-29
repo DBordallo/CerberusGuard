@@ -10,11 +10,11 @@ export function AuthProvider({ children }) {
  const [user, setUser] = useState(null);
  const [loading, setLoading] = useState(true);
 
- const signup = async (profileImage, fullName, email, phone, password) => {
+ const signup = async ( profile_image, user_name, user_telephone, user_email, user_password) => {
     const response = await fetch('http://localhost:6700/cerberus/auth/register', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({profileImage, fullName, email, phone, password, }),
+      body: JSON.stringify({  profile_image, user_name, user_telephone, user_email, user_password}),
     });
     const data = await response.json();
     setUser(data.user);
@@ -26,11 +26,11 @@ export function AuthProvider({ children }) {
     setUser(null);
  };
 
- const login = async (email, password) => {
+ const login = async (user_email, user_password) => {
     const response = await fetch('http://localhost:6700/cerberus/auth/login', {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ user_email, user_password }),
     });
     const data = await response.json();
     setUser(data.user);

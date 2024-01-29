@@ -8,8 +8,8 @@ import './Login.css';
 const Login = (props) => {
   const { login } = useAuth();
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+    user_email: '',
+    user_password: '',
   });
 
   const userId = props.id;
@@ -24,7 +24,7 @@ const Login = (props) => {
     e.preventDefault();
 
     try {
-      await login(formData.email, formData.password);
+      await login(formData.user_email, formData.user_password);
       console.log('Inicio de sesión exitoso');
       navigate(`/home/${userId}`);
     } catch (error) {
@@ -41,12 +41,12 @@ const Login = (props) => {
             <Form onSubmit={handleSubmit}>
               <Form.Group style={{ marginBottom: '2rem' }} controlId="formEmail">
                 <Form.Label style={{ color: 'white' }}>Email</Form.Label>
-                <Form.Control type="email" placeholder="Email" name="email" onChange={handleChange} />
+                <Form.Control type="email" placeholder="Email" name="user_email" onChange={handleChange} />
               </Form.Group>
 
               <Form.Group style={{ marginBottom: '2rem' }} controlId="formPassword">
                 <Form.Label style={{ color: 'white' }}>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" name="password" onChange={handleChange} />
+                <Form.Control type="password" placeholder="Password" name="user_password" onChange={handleChange} />
               </Form.Group>
 
               <Container className="logInBtns">
