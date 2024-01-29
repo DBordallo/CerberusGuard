@@ -25,12 +25,13 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await signup(formData.email, formData.password);
+      await signup(formData.profileImage, formData.fullName, formData.email, formData.phone, formData.password);
       console.log('Registro exitoso');
     } catch (error) {
       console.error('Error en el registro', error);
     }
   };
+
 
   return (
     <Container style={{ margin: "0", padding: "0" }}>
@@ -45,7 +46,7 @@ const Register = () => {
             <Form.Group controlId="formProfileImage">
               <Form.Label>Profile image</Form.Label>
               <Form.Control
-                type="text"
+                type="file"
                 placeholder="Select file"
                 name="profileImage"
                 onChange={handleChange}
