@@ -7,10 +7,10 @@ import { registerSchemas } from "../schemas/auth.schemas.js";
 const userRouter = express.Router();
 
 userRouter.post("/", registerSchemas, createUser);
-userRouter.get("/", verifyToken, isAdmin, getAllUsers);
-userRouter.get("/user/:id", getUser);  // Cambiado para evitar conflicto con la siguiente ruta
+userRouter.get("/", getAllUsers);
+userRouter.get("/:id", getUser); 
 userRouter.get("/usrAcc/:id", getUserByAccountId);
-userRouter.put("/:id", verifyToken, isAdmin, updateUser);
+userRouter.put("/:id",  updateUser);
 userRouter.delete("/:id", verifyToken, isAdmin, deleteUser);
 
 export default userRouter;

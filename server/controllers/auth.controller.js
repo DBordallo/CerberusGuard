@@ -38,7 +38,7 @@ const authController = {
 
             const user = await UserModel.findOne({ where: { user_email } });
 
-            console.log(user)
+            
 
             if (!user || !(await comparePassword(user_password, user.user_password))) {
                 return res.status(401).json({ message: "Invalid Email or Password" });
