@@ -1,59 +1,80 @@
 import { z } from "zod";
 
-export const registerSchemas = z.object({
+
+export const registerSchemas = (req, res, next) => {
+  const schema = z.object({
     profile_img: z
-    .string({
+      .string({
         required_error: "User name is required",
-    }),
+      }),
 
     user_name: z
-    .string({
+      .string({
         required_error: "User name is required",
-    }),
+      }),
 
     user_lastname: z
-    .string({
+      .string({
         required_error: "lastname is required",
-    }),
+      }),
 
     user_email: z
-    .string({
+      .string({
         required_error: "email is required",
-    })
-    .email({
+      })
+      .email({
         required_error: "invalid email",
-    }),
+      }),
 
     user_password: z
-    .string({
+      .string({
         required_error: "password is required",
-        
-    })
-    .min(6, {
-        message: "password must be at least 6 characters"
-    }),
+      })
+      .min(6, {
+        message: "password must be at least 6 characters",
+      }),
+  });
+
+  try {
     
-})
+    const validatedData = schema.parse(req.body);
 
-
-export const loginSchemas = z.object({
     
+    req.validatedData = validatedData;
 
-    user_email: z
-    .string({
-        required_error: "email is required",
-    })
-    .email({
-        required_error: "invalid email",
-    }),
+    
+    next();
+  } catch (error) {
+    
+    res.status(400).json({ error: error.errors });
+  }
+};
 
-    user_password: z
-    .string({
-        required_error: "password is required",
-    })
-    .min(6, {
-        message: "password must be at least 6 characters"
-    })
+
+  export const loginSchemas = (req, res, next) => {
+    const loginSchema = z.object({
+      user_email: z
+        .string({
+          required_error: "Email is required",
+        })
+        .email({
+          required_error: "Invalid email",
+        }),
   
-    
-})
+      user_password: z
+        .string({
+          required_error: "Password is required",
+        })
+        .min(6, {
+          message: "Password must be at least 6 characters",
+        }),
+    });
+  
+    try {
+      const validatedData = loginSchema.parse(req.body);
+      req.validatedData = validatedData;
+      next();
+    } catch (error) {
+      res.status(400).json({ error: error.errors });
+    }
+  };
