@@ -24,7 +24,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await signup(formData.profile_image, formData.user_name, formData.user_email, formData.user_telephone, formData.user_password);
+      await signup(formData.profile_img, formData.user_name, formData.user_email, formData.user_telephone, formData.user_password);
       console.log('Registro exitoso');
     } catch (error) {
       console.error('Error en el registro', error);

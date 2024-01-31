@@ -51,11 +51,11 @@ const router = createBrowserRouter([
 
             {
                 path: "/guard",
-                //element:(
-                // <ProtectedRoute>
-                    element: <HomeCerberus />
-                // </ProtectedRoute>
-               // ),
+                element:(
+                <ProtectedRoute>
+                 <HomeCerberus />
+               </ProtectedRoute>
+                ),
             },
         ]
     }
