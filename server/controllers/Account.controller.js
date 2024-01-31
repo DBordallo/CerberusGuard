@@ -89,14 +89,19 @@ export const getAccount = async (req, res) => {
     }
 };
 
+
+
 export const updateAccount = async (req, res) => {
     const { id } = req.params;
 
     try {
+        
         if (req.body.password) {
+           
             req.body.password = await hashPassword(req.body.password);
         }
 
+       
         const [updatedCount, [updatedAccount]] = await Accounts.update(req.body, { where: { id }, returning: true });
 
         if (updatedCount > 0) {
@@ -108,6 +113,7 @@ export const updateAccount = async (req, res) => {
         handleServerError(res, error);
     }
 };
+
 
 export const deleteAccount = async (req, res) => {
     const { id } = req.params;

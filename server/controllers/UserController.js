@@ -1,6 +1,5 @@
 import UserModel from '../models/UserModel.js';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { hashPassword } from '../utils/bcrypt.js'; 
 import dotenv from 'dotenv';
 import Accounts from '../models/AccountModel.js';
 
@@ -48,15 +47,25 @@ export const getUser = async (req, res) => {
 
 //PUT - UPDATE OF CRUD
 
+
 export const updateUser = async (req, res) => {
     try {
         const user = await UserModel.findByPk(req.params.id);
         if (!user) {
             return res.status(500).json({ message: 'User not found' });
         }
-        await UserModel.update(req.body, {where: {id:req.params.id}} );
+
+        
+        if (req.body.user_password) {
+            
+            req.body.user_password = await hashPassword(req.body.user_password);
+        }
+
+        await UserModel.update(req.body, { where: { id: req.params.id } });
+
         res.status(201).json({ message: 'The User has been updated successfully!' });
-    } catch (error) {console.error(error);
+    } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.errors });
     }
 };
@@ -80,30 +89,6 @@ export const deleteUser = async (req, res) => {
 
 // USER Login Controller
 
-export const loginUser = async (req, res) => {
-    const { user_email, user_password } = req.body;
-    try {
-        const user = await UserModel.findOne({ where: { user_email } });
-
-        if (!user) {
-            return res.status(401).json({ message: 'Invalid email or password' });
-        }
-
-        const isPasswordValid = await bcrypt.compare(user_password, user.user_password);
-
-        if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Invalid email or password' });
-        }
-
-        const secretKey = process.env.SECRET_KEY;
-        console.log("Secret Key:", secretKey)
-        const token = jwt.sign({ id: user.id, user_email: user.user_email }, secretKey);
-        res.json({ token });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: error.message });
-    }
-};
 
 export const getUserByAccountId = async (req, res) => {
     try {
