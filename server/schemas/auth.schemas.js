@@ -13,11 +13,6 @@ export const registerSchemas = (req, res, next) => {
         required_error: "User name is required",
       }),
 
-    user_lastname: z
-      .string({
-        required_error: "lastname is required",
-      }),
-
     user_email: z
       .string({
         required_error: "email is required",
