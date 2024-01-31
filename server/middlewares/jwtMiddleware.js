@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
-import { decodeToken } from '../utils/jwt';
 
 function verifyToken(req, res, next) {
-    const token = req.header('Authorization');
+    const token = req.cookies.token || req.headers.authorization;
 
     if (!token) {
         return res.status(403).json({ message: 'Token not provided' });

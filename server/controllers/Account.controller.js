@@ -1,6 +1,8 @@
 import Accounts from "../models/AccountModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
+import { decodeToken, createToken } from "../utils/jwt.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.js";
+import UserModel from "../models/UserModel.js";
 
 const handleServerError = (res, error) => {
     console.error(error);
@@ -17,9 +19,10 @@ export const getAccounts = async (req, res) => {
 };
 
 export const createAccount = async (req, res) => {
-    const { app_name, email, password, img } = req.body;
+    const { app_name, email, password, img, user_id } = req.body;
 
     try {
+
         if (!img) {
             return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
         }
@@ -35,13 +38,30 @@ export const createAccount = async (req, res) => {
             AccImage.public_id = result.public_id;
             AccImage.secure_url = result.secure_url;
         }
-        
+
+        let decodedUser;
+
+        if (!user_id) {
+            const token = req.cookies.token || req.headers.authorization;
+
+            if (!token) {
+                return res.status(401).json({ error: 'No token provided' });
+            }
+
+            decodedUser = decodeToken(token);
+            
+
+            if (!decodedUser) {
+                return res.status(401).json({ error: 'Invalid token' });
+            }
+        }
 
         const newAccountData = {
-            app_name:"2l",
-            email: "hello@gmail.com",
-            password: "adsadsa:",
-            img: AccImage,
+            app_name,
+            email,
+            password,
+            img: AccImage, 
+            user_id: user_id || decodedUser,
         };
 
         const newAccount = await Accounts.create(newAccountData);
@@ -50,6 +70,7 @@ export const createAccount = async (req, res) => {
         handleServerError(res, error);
     }
 };
+
 
 
 export const getAccount = async (req, res) => {
@@ -107,5 +128,22 @@ export const deleteAccount = async (req, res) => {
         res.status(204).json({ message: 'Account deleted successfully' });
     } catch (error) {
         handleServerError(res, error);
+    }
+};
+
+export const getAccountByUserId = async (req, res) => {
+    try {
+        const userId = req.params.id;
+
+        const user = await UserModel.findByPk(userId, { include: 'accounts' });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        return res.json(user.accounts);
+    } catch (error) {
+        console.error('Error getting account by user ID:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };

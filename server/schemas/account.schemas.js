@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const productCreateSchemas = z.object({
+export const AccountCreateSchemas = z.object({
     img: z
     .string({
         required_error: "Image required",

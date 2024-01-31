@@ -18,10 +18,11 @@ const authController = {
             const hashedPassword = await hashPassword(user_password, saltRounds);
 
             const newUser = await UserModel.create({
-                ...userData,
+                user_email,
                 user_password: hashedPassword,
-                role: "user",
-        });
+                roles: "user",
+                ...userData,
+            });
 
             return res.status(201).json({ message: "User Created" });
         } catch (error) {
@@ -29,12 +30,17 @@ const authController = {
         }
     },
 
+
     Login: async (req, res) => {
         try {
             const { user_email, user_password } = req.body;
+            
+
             const user = await UserModel.findOne({ where: { user_email } });
 
-            if (!user || !(await comparePassword(user_password, UserModel.user_password))) {
+            console.log(user)
+
+            if (!user || !(await comparePassword(user_password, user.user_password))) {
                 return res.status(401).json({ message: "Invalid Email or Password" });
             }
 

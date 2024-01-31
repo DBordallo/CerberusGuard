@@ -21,7 +21,6 @@ const Accounts = db.define('Account', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
     validate: {
       isEmail: true,
     },
@@ -34,10 +33,16 @@ const Accounts = db.define('Account', {
       const hashedPassword = bcrypt.hashSync(value, salt);
       this.setDataValue('password', hashedPassword);
     },
+    user_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      }  
   },
 }, {
   timestamps: true, 
 });
+
+
 
 
 db.sync();

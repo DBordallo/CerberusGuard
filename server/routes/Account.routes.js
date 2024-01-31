@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { createAccount, getAccount, updateAccount, getAccounts, deleteAccount } from "../controllers/Account.controller.js";
-
+import { createAccount, getAccount, updateAccount, getAccounts, getAccountByUserId , deleteAccount } from "../controllers/Account.controller.js";
+import { AccountCreateSchemas } from "../schemas/account.schemas.js";
 const router = Router()
 
 router.get("/", getAccounts);
 router.get("/:id", getAccount);
-router.post("/", createAccount);
+router.get("/acc/:id", getAccountByUserId);
+router.post("/", AccountCreateSchemas, createAccount);
 router.put("/:id",  updateAccount);
 router.delete("/:id", deleteAccount);
 

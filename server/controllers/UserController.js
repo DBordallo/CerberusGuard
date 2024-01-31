@@ -2,6 +2,7 @@ import UserModel from '../models/UserModel.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import Accounts from '../models/AccountModel.js';
 
 dotenv.config();
 
@@ -101,5 +102,22 @@ export const loginUser = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: error.message });
+    }
+};
+
+export const getUserByAccountId = async (req, res) => {
+    try {
+        const accountId = req.params.id;
+
+        const account = await Accounts.findByPk(accountId, { include: 'user' });
+
+        if (!account) {
+            return res.status(404).json({ error: 'Account not found' });
+        }
+
+        return res.json(account.user);
+    } catch (error) {
+        console.error('Error getting user by account ID:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };

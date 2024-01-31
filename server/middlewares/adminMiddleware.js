@@ -14,7 +14,7 @@ export const isAdmin = async (req, res, next) => {
 
         const user = await UserModel.findByPk(req.userId);
 
-        if (user && user.Role === "admin") {
+        if (user && user.roles === "admin") {
             next();
         } else {
             res.status(403).json({ error: 'Acceso denegado' });

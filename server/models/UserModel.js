@@ -1,7 +1,7 @@
 import db from '../database/db.js';
 import { DataTypes } from 'sequelize';
 import { UUIDV4 } from "sequelize";
-import bcrypt from 'bcrypt';
+import Accounts from './AccountModel.js';
 
 
 const UserModel = db.define("users", {
@@ -20,11 +20,8 @@ const UserModel = db.define("users", {
     timestamps: false
 })
 
-UserModel.addHook('beforeCreate', async (user) => {
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(user.user_password, saltRounds);
-    user.user_password = hashedPassword;
-});
+Accounts.belongsTo(UserModel, { foreignKey: 'user_id', as: "user" });
+UserModel.hasMany(Accounts, { foreignKey: 'user_id', as: 'accounts' });
 
 
 export default UserModel;
