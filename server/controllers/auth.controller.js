@@ -40,7 +40,7 @@ const authController = {
                 return res.status(401).json({ message: "Invalid Email or Password" });
             }
     
-            const token = createToken({ id: user.id }); // Asegúrate de pasar un objeto con la propiedad 'id'
+            const token = createToken({ user }); // Asegúrate de pasar un objeto con la propiedad 'id'
             console.log("Generated token:", token);
 
             res.cookie("token", token, { httpOnly: true });

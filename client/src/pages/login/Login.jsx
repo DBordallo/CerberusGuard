@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useAuth } from "../../authcontext/AuthContext";
 import HeaderLogo from "../../components/headerLogo/HeaderLogo";
@@ -7,48 +7,51 @@ import isUserAdmin from "../../authcontext/UserAdmin";
 import "./Login.css";
 
 const Login = () => {
+  const [condicion, setCondicion] = useState();
   const { login } = useAuth();
   const [formData, setFormData] = useState({
     user_email: "",
     user_password: "",
   });
-
- 
   const navigate = useNavigate();
+
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      const token = await login(formData.user_email, formData.user_password);
+      
+      console.log("Received token:", token);
+      
+      if (token) {
+        
+        const result = await isUserAdmin();
+        setCondicion(result.user);
+        
+      }
+    } catch (error) {
+      console.error("Error en el inicio de sesión", error);
+    }
+  };
+  useEffect(() => {
+    console.log("Condicion:", condicion);
+    if (condicion && condicion.roles && condicion.id) {
+      if (condicion.roles === "admin") {
+        console.log("Redirecting to /guard");
+        navigate("/guard");
+      } else if (condicion.roles === "user") {
+        console.log("Redirecting to /home/",condicion.id);
+        navigate(`/home/${condicion.id}`);
+      }
+    }
+  }, [condicion, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
- 
-    try {
-       const token = await login(formData.user_email, formData.user_password);
- 
-       console.log("Received token:", token);
- 
-       if (token) {
-          // Hacer la verificación de rol aquí después de un inicio de sesión exitoso
-          const userIsAdmin = await isUserAdmin(document.cookie);
- 
-          if (userIsAdmin && userIsAdmin.roles === "admin") {
-             navigate("/guard");
-          } else if (userIsAdmin) {
-             navigate(`/home/${userIsAdmin.id}`);
-          } else {
-             // Si no es admin, redirige a la página de inicio de usuario normal
-             navigate(`/home/${userIsAdmin.id}`);
-          }
-       }
-    } catch (error) {
-       console.error("Error en el inicio de sesión", error);
-    }
- };
- 
-
-
+  
   return (
     <Container className="logInContainer">
       <HeaderLogo />

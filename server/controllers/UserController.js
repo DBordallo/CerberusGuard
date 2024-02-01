@@ -2,6 +2,7 @@ import UserModel from '../models/UserModel.js';
 import { hashPassword } from '../utils/bcrypt.js'; 
 import dotenv from 'dotenv';
 import Accounts from '../models/AccountModel.js';
+import { decodeToken } from '../utils/jwt.js';
 import verifyToken from '../middlewares/jwtMiddleware.js';
 
 dotenv.config();
@@ -22,15 +23,6 @@ export const createUser = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try{
-        const token =  req.headers.authorization;
-
-        const user = verifyToken(token)
-        
-        if(user.roles === "admin") {
-            const users = await UserModel.findAll()
-            res.json({users, admin});
-        }
-
         const users = await UserModel.findAll()
         res.json(users);
     }catch (error){
@@ -39,7 +31,28 @@ export const getAllUsers = async (req, res) => {
     }
 };
 
+export const getUserRole = async (req, res) => {
+    try {
+        const { token } = req.body || {}; // Utiliza {} como valor por defecto para evitar 'undefined'
 
+        if (!token) {
+            return res.status(400).json({ message: "Token not provided in the request body" });
+        }
+
+        const user = decodeToken(token);
+
+        if (!user) {
+            return res.status(401).json({ message: "Invalid or expired token" });
+        }
+
+        res.json(user);
+
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
+};
 
 //GET ONE ADMIN - REVIEW OF CRUD
 export const getUser = async (req, res) => {
@@ -98,7 +111,7 @@ export const deleteUser = async (req, res) => {
 };
 
 
-// USER Login Controller
+
 
 
 export const getUserByAccountId = async (req, res) => {

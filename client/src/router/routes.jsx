@@ -8,6 +8,7 @@ import NewPassword from "../pages/newPassword/NewPassword";
 import UserHome from "../pages/user/userHome/UserHome";
 import HomeCerberus from "../pages/cerberusGuard/homeCerberus/HomeCerberus";
 import Profile from "../pages/profile/Profile"
+import MiComponente from "../authcontext/AuthComponent";
 
 const router = createBrowserRouter([
     {
@@ -24,7 +25,7 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: "/home/:userId",
+                path: "/home/:id",
                 element: (
                     <ProtectedRoute>
                         <UserHome />
@@ -52,9 +53,7 @@ const router = createBrowserRouter([
             {
                 path: "/guard",
                 element:(
-                <ProtectedRoute>
-                 <HomeCerberus />
-               </ProtectedRoute>
+                <MiComponente/>
                 ),
             },
         ]

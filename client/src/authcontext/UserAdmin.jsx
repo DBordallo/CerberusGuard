@@ -1,18 +1,34 @@
 export default async function isUserAdmin() {
     try {
         const cookieString = document.cookie;
-        const tokenValue = cookieString.split('=')[1];
 
-        const response = await fetch('http://localhost:6700/cerberus/users', {
-            method: 'GET',
+        const token = cookieString
+            .split('; ')
+            .map(cookie => {
+                const trimmedCookie = cookie.trim();
+                if (trimmedCookie.startsWith('_ga=')) {
+                    return '';
+                } else if (trimmedCookie.startsWith('token=')) {
+                    return trimmedCookie.substring('token='.length);
+                }
+                return trimmedCookie;
+            })
+            .filter(Boolean)  // Eliminar cookies vacías
+            .join('; ');
+
+        const response = await fetch('http://localhost:6700/cerberus/users/role', {
+            method: 'POST',
             headers: {
-                'Authorization': `${tokenValue}`
-            }
+                'Content-Type': 'application/json',
+                'Authorization': `${token}`,
+            },
+            body: JSON.stringify({ token: token }),
         });
 
         if (response.ok) {
             const data = await response.json();
-            return data;
+            console.log(data);
+            return data;  // Devuelve directamente los datos obtenidos del servidor
         } else {
             throw new Error(`Failed to fetch user data: ${response.status}`);
         }
