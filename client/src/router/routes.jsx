@@ -27,9 +27,7 @@ const router = createBrowserRouter([
             {
                 path: "/home/:id",
                 element: (
-                    <ProtectedRoute>
-                        <UserHome />
-                    </ProtectedRoute>
+                        <MiComponente />
                 ),
             },
             {
