@@ -16,36 +16,13 @@ export const getPreAccounts = async (req, res) => {
 };
 
 export const createPreAccount = async (req, res) => {
-    const { app_name, img } = req.body;
-    try {
-
-        if (!img) {
-            return res.status(400).json({ error: 'La imagen es requerida para crear.' });
+        try{
+            await PreAccounts.create(req.body)
+            res.status(200).json({message: "This User has been added successfully!"})
+        }catch (error){
+            res.status(500).json({message: error})
         }
-
-        const AccImage = {
-            public_id: '',
-            secure_url: '',
-        };
-
-        const result = await uploadImage(`data:image/jpeg;base64,${img}`);
-
-        if (result) {
-            AccImage.public_id = result.public_id;
-            AccImage.secure_url = result.secure_url;
-        }
-
-        const newPreAccountData = {
-            app_name,
-            img: AccImage, 
-        };
-
-        const newPreAccount = await PreAccounts.create(newPreAccountData);
-        res.json(newPreAccount);
-    } catch (error) {
-        handleServerError(res, error);
     }
-};
 
 
 

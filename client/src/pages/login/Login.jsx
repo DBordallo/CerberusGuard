@@ -21,7 +21,7 @@ const Login = () => {
     try {
       const token = await login(formData.user_email, formData.user_password);
 
-      console.log("Received token:", token);
+      console.log( token);
 
       if (token) {
         const result = await isUserAdmin();

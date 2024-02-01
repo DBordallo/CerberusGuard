@@ -1,20 +1,15 @@
 import { DataTypes } from 'sequelize';
 import db from '../database/db.js';
 
-const PreAccounts = db.define('PreAccount', {
+const PreAccounts = db.define('PreAccounts', {
   id: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     primaryKey: true,
     allowNull: false,
+    defaultValue: DataTypes.UUIDV4,
   },
-  img: {
-    type: DataTypes.JSON,
-    allowNull: true,
-  },
-  app_name: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  app_img: {type:DataTypes.STRING},
+  app_names: {type:DataTypes.STRING}
 }, {
   timestamps: true, 
 });

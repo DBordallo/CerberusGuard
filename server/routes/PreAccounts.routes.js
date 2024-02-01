@@ -5,7 +5,7 @@ const router = Router()
 
 router.get("/", getPreAccounts);
 router.get("/:id", getPreAccount);
-router.post("/",createPreAccount);
+router.post("/create",createPreAccount);
 router.delete("/:id", deletePreAccount);
 
 export default router

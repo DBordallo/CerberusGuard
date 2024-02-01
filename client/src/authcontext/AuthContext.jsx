@@ -73,22 +73,21 @@ const login = async (user_email, user_password) => {
   
 const isUserAdmin = async () => {
   try {
-      const cookieString = document.cookie;
-
-      const token = cookieString
-          .split('; ')
-          .map(cookie => {
-              const trimmedCookie = cookie.trim();
-              if (trimmedCookie.startsWith('_ga=')) {
-                  return '';
-              } else if (trimmedCookie.startsWith('token=')) {
-                  return trimmedCookie.substring('token='.length);
-              }
-              return trimmedCookie;
-          })
-          .filter(Boolean)  // Eliminar cookies vacías
-          .join('; ');
-
+   const cookieString = document.cookie;
+   console.log(cookieString);
+ 
+   const token = cookieString
+     .split('; ')
+     .map(cookie => {
+       const trimmedCookie = cookie.trim();
+       if (trimmedCookie.startsWith('token=')) {
+         return trimmedCookie.substring('token='.length);
+       }
+       return '';
+     })
+     .filter(Boolean)  // Eliminar cookies vacías
+     .join('; ');
+     console.log(token)
       const response = await fetch('http://localhost:6700/cerberus/users/role', {
           method: 'POST',
           headers: {
