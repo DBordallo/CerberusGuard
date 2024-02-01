@@ -1,22 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Container, Row, Col, Button } from 'react-bootstrap';
+import { Form, Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import PasswordGenerator from '../../components/passwordGenerator/PasswordGenerator';
 import HeaderLogoText from '../../components/headerLogo+text/HeaderLogoText';
-import "./NewPassword.css"
+import { useAuth } from '../../authcontext/AuthContext';
+import { useParams } from 'react-router-dom';
 
-function NewPassword() {
+const NewPassword = () => {
+  const { id } = useParams();
+  const { isUserAdmin } = useAuth();
   const [socialNetworks, setSocialNetworks] = useState([]);
   const [selectedSocialNetwork, setSelectedSocialNetwork] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [generatedPassword, setGeneratedPassword] = useState('');
+  const [userId, setUserId] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await isUserAdmin();
+
+        if (result) {
+          setUserId(result.user.id);
+        } else {
+          console.error('Error al obtener los datos de usuario');
+        }
+      } catch (error) {
+        console.error('Error al recibir los datos del usuario', error);
+      }
+    };
+
+    fetchData();
+
     fetch('http://localhost:6700/cerberus/preaccounts/')
       .then(response => response.json())
       .then(data => setSocialNetworks(data))
       .catch(error => console.error('Error fetching social networks:', error));
-  }, []);
+  }, [isUserAdmin]);
 
   const handleSocialNetworkChange = (e) => {
     setSelectedSocialNetwork(e.target.value);
@@ -34,26 +55,41 @@ function NewPassword() {
     setGeneratedPassword(newPassword);
   };
 
-  const handleSavePassword = () => {
-    fetch(`http://localhost:6700/cerberus/accounts/`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        socialNetwork: selectedSocialNetwork,
-        name,
-        email,
-        generatedPassword,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Contraseña y información del usuario guardadas exitosamente:', data);      })
-      .catch(error => {
-        console.error('Error al guardar la contraseña y la información del usuario:', error);
+  const handleSavePassword = async () => {
+    try {
+      if (!userId) {
+        throw new Error('No se pudo obtener el ID del usuario');
+      }
+
+      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          socialNetwork: selectedSocialNetwork,
+          app_name: name,
+          email,
+          password: generatedPassword,
+          user_id: userId,
+        }),
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        setError(`Error al guardar la contraseña y la información del usuario: ${errorText}`);
+        console.error('Respuesta del servidor:', errorText);
+        return;
+      }
+
+      const data = await response.json();
+      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
+    } catch (error) {
+      setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
+      console.error('Error al guardar la contraseña y la información del usuario:', error);
+    }
   };
+
 
   return (
     <Container className='newPassword'>
@@ -90,6 +126,7 @@ function NewPassword() {
                 type="text"
                 placeholder="Name"
                 onChange={handleNameChange}
+                value={name}
               />
             </Form.Group>
 
@@ -98,6 +135,7 @@ function NewPassword() {
               <Form.Control
                 type="email"
                 placeholder="Email"
+                value={email}
                 onChange={handleEmailChange}
               />
             </Form.Group>

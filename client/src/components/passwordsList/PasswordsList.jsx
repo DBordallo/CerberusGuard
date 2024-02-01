@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./PasswordList.css";
 import Pagination from "../pagination/Pagination";
 import { useAuth } from "../../authcontext/AuthContext";
+import { Link } from "react-router-dom";
 
 const PasswordList = () => {
   const { isUserAdmin } = useAuth();
@@ -53,7 +54,7 @@ const PasswordList = () => {
     <div className="containerList">
       <h2>My Passwords</h2>
       {userAccounts.length === 0 ? (
-        <p>No tienes cuentas asignadas. Registra cuentas para verlas aquí.</p>
+        <p>No tienes cuentas asignadas. <Link to={`/addaccount/${userData.user.id}`}>Registra cuentas para verlas aquí.</Link> </p>
       ) : (
         <>
           <ul className="listPass">

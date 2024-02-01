@@ -3,7 +3,7 @@ import "./PasswordGenerator.css"
 
 const PasswordGenerator = ({ onGeneratePassword }) => {
   const [password, setPassword] = useState('');
-  const [length, setLength] = useState(8);
+  const [length, setLength] = useState(10);
   const [includeUppercase, setIncludeUppercase] = useState(true);
   const [includeLowercase, setIncludeLowercase] = useState(true);
   const [includeNumbers, setIncludeNumbers] = useState(true);
