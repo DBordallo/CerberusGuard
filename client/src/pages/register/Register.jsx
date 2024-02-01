@@ -8,12 +8,24 @@ import "./Register.css"
 const Register = () => {
   const { signup } = useAuth();
   const [formData, setFormData] = useState({
-    profile_image: "",
+    profile_img: "",
     user_name:"",
     user_telephone: "",
     user_email: "",
     user_password: ""
   });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, profile_img: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,7 +36,7 @@ const Register = () => {
     e.preventDefault();
 
     try {
-      await signup(formData.profile_img, formData.user_name, formData.user_email, formData.user_telephone, formData.user_password);
+      await signup(formData.profile_img, formData.user_name, formData.user_telephone, formData.user_email, formData.user_password);
       console.log('Registro exitoso');
     } catch (error) {
       console.error('Error en el registro', error);
@@ -106,11 +118,13 @@ const Register = () => {
             <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='registerBtn' type="submit">
               Register
             </Button>
-            <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='signInBtn' variant="primary" type="submit">
-              <Link to="/">Have an account? Sign In</Link>
-            </Button>
             </Container>
           </Form>
+          <Link to="/">
+            <Button style={{ color: "white", backgroundColor: "#162333", border: "none", margin: "1rem" }} className='signInBtn' variant="primary">
+              Have an account? Sign In
+            </Button>
+            </Link>
         </Col>
       </Row>
     </Container>

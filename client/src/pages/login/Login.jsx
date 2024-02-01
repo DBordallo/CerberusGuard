@@ -3,12 +3,11 @@ import { Form, Button, Container, Row, Col } from "react-bootstrap";
 import { useAuth } from "../../authcontext/AuthContext";
 import HeaderLogo from "../../components/headerLogo/HeaderLogo";
 import { useNavigate, Link } from "react-router-dom";
-import isUserAdmin from "../../authcontext/UserAdmin";
 import "./Login.css";
 
 const Login = () => {
   const [condicion, setCondicion] = useState();
-  const { login } = useAuth();
+  const { login, isUserAdmin } = useAuth();
   const [formData, setFormData] = useState({
     user_email: "",
     user_password: "",
@@ -18,22 +17,21 @@ const Login = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const token = await login(formData.user_email, formData.user_password);
-      
+
       console.log("Received token:", token);
-      
+
       if (token) {
-        
         const result = await isUserAdmin();
         setCondicion(result.user);
-        
       }
     } catch (error) {
       console.error("Error en el inicio de sesión", error);
     }
   };
+
   useEffect(() => {
     console.log("Condicion:", condicion);
     if (condicion && condicion.roles && condicion.id) {
@@ -41,7 +39,7 @@ const Login = () => {
         console.log("Redirecting to /guard");
         navigate("/guard");
       } else if (condicion.roles === "user") {
-        console.log("Redirecting to /home/",condicion.id);
+        console.log("Redirecting to /home/", condicion.id);
         navigate(`/home/${condicion.id}`);
       }
     }

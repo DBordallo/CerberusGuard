@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import userRouter from "./routes/userRouter.js";
 import accountRouter from "./routes/Account.routes.js"
+import prerouter from "./routes/PreAccounts.routes.js";
 import authRouter from "./routes/Auth.routes.js";
 
 export const app = express()
@@ -22,6 +23,7 @@ app.use(express.json())
 
 
 app.use("/cerberus/users", userRouter)
+app.use("/cerberus/preaccounts", prerouter)
 app.use("/cerberus/accounts", accountRouter)
 app.use("/cerberus/auth", authRouter)
 

@@ -31,14 +31,14 @@ const router = createBrowserRouter([
                 ),
             },
             {
-                path: "/profile",
+                path: "/profile/:id",
                 element: /*(
                 <ProtectedRoute>*/
                     <Profile />
                 // </ProtectedRoute>),
             },
             {
-                path: "/addaccount",
+                path: "/addaccount/:id",
                 element: //(
                  //<ProtectedRoute>
                     <NewPassword />

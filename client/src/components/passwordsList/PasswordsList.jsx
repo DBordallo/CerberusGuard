@@ -1,89 +1,43 @@
 import React, { useState, useEffect } from "react";
 import "./PasswordList.css"
 import Pagination from "../pagination/Pagination"
-import New1 from "../../assets/instagram.svg"
-import New2 from "../../assets/facebook.png"
-import New3 from "../../assets/x-twitter.png"
+import { useAuth } from "../../authcontext/AuthContext";
 
 
-
-
-const apiUrl = [
-    {
-      "id": 1,
-      "title": "Instagram",
-      "image": `${New1}`,
-      "name": "Pepito",
-      "email": "pepito@mail.com"
-    },
-    {
-        "id": 2,
-        "title": "Facebook",
-        "image": `${New2}`,
-        "name": "Pepito2",
-        "email": "pepito2@mail.com"
-    },
-    {
-        "id": 3,
-        "title": "X",
-        "image": `${New3}`,
-        "name": "Pepito3",
-        "email": "pepito3@mail.com"
-    },
-    {
-      "id": 4,
-      "title": "Instagram2",
-      "image": `${New1}`,
-      "name": "Pepito",
-      "email": "pepito@mail.com"
-    },
-    {
-        "id": 5,
-        "title": "Facebook2",
-        "image": `${New2}`,
-        "name": "Pepito2",
-        "email": "pepito2@mail.com"
-    },
-    {
-        "id": 6,
-        "title": "X2",
-        "image": `${New3}`,
-        "name": "Pepito3",
-        "email": "pepito3@mail.com"
-    },
-    {
-      "id": 7,
-      "title": "Instagram3",
-      "image": `${New1}`,
-      "name": "Pepito",
-      "email": "pepito@mail.com"
-    },
-    {
-        "id": 8,
-        "title": "Facebook3",
-        "image": `${New2}`,
-        "name": "Pepito2",
-        "email": "pepito2@mail.com"
-    },
-    {
-        "id": 9,
-        "title": "X3",
-        "image": `${New3}`,
-        "name": "Pepito3",
-        "email": "pepito3@mail.com"
-    },
-  ];
-  
   const PasswordList = () => {
     const [newsList, setNewsList] = useState([]);
-  
+    const {isUserAdmin} = useAuth()
+    const [userData, setUserData] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 5;
   
   
     useEffect(() => {
-      setNewsList(apiUrl);
-    }, []);
+      const getUserData = async () => {
+          try {
+              const result = await isUserAdmin();
+
+              if (result) {
+                  setUserData(result);
+                  const appsResponse = await fetch(`http://localhost:6700/cerberus/accounts/acc/${result.user.id}`);
+                  if (!appsResponse.ok) {
+                      console.error('Error al obtener la cantidad de aplicaciones del usuario');
+                      return;
+                  }
+              } else {
+                  console.error('Error al obtener los datos de usuario');
+              }
+          } catch (error) {
+              console.error('Error al recibir los datos del usuario', error);
+          }
+      };
+
+      getUserData();
+  }, []);
+
+  if (!userData) {
+      return null;
+  }
   
   
     const getCurrentPageData = () => {

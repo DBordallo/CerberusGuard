@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import isUserAdmin from "./UserAdmin";
+import { useAuth } from "./AuthContext";
 import HomeCerberus from "../pages/cerberusGuard/homeCerberus/HomeCerberus";
 import ErrorElement from "../pages/errorElement/ErrorElement";
 import UserHome from "../pages/user/userHome/UserHome";
@@ -19,7 +19,7 @@ const ComponenteCondicional = ({ condicion }) => {
   };
 function MiComponente() {
     const [condicion, setCondicion] = useState(null);
-
+    const {isUserAdmin } = useAuth()
 
 
     useEffect(() => {

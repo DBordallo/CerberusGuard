@@ -12,7 +12,7 @@ function NewPassword() {
   const [generatedPassword, setGeneratedPassword] = useState('');
 
   useEffect(() => {
-    fetch('/api/socialNetworks')
+    fetch('http://localhost:6700/cerberus/preaccounts/')
       .then(response => response.json())
       .then(data => setSocialNetworks(data))
       .catch(error => console.error('Error fetching social networks:', error));
@@ -35,7 +35,7 @@ function NewPassword() {
   };
 
   const handleSavePassword = () => {
-    fetch('/api/savePassword', {
+    fetch(`http://localhost:6700/cerberus/accounts/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -103,6 +103,7 @@ function NewPassword() {
             </Form.Group>
 
             <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
+            
             <Button style={{marginTop:"1rem"}} variant="primary" onClick={handleSavePassword}>
               Save
             </Button>

@@ -5,7 +5,7 @@ export const registerSchemas = (req, res, next) => {
   const schema = z.object({
     profile_img: z
       .string({
-        required_error: "User name is required",
+        required_error: "image is required",
       }),
 
     user_name: z
