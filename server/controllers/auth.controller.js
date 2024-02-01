@@ -30,30 +30,29 @@ const authController = {
         }
     },
 
-
     Login: async (req, res) => {
         try {
             const { user_email, user_password } = req.body;
-            
-
+    
             const user = await UserModel.findOne({ where: { user_email } });
-
-            
-
+    
             if (!user || !(await comparePassword(user_password, user.user_password))) {
                 return res.status(401).json({ message: "Invalid Email or Password" });
             }
-
-            const token = createToken(user.id);
+    
+            const token = createToken({ id: user.id }); // Asegúrate de pasar un objeto con la propiedad 'id'
+            console.log("Generated token:", token);
 
             res.cookie("token", token, { httpOnly: true });
-
-            return res.status(200).json(token);
-            
+    
+            return res.status(200).json({ token });
         } catch (error) {
-            return res.status(500).json({ error: error.message });
+            console.error("Error in login:", error);
+            return res.status(500).json({ error: "Internal Server Error" });
         }
     },
+    
+    
 
     Logout: (_req, res) => {
         try {

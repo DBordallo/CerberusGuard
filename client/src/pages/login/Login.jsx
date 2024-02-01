@@ -23,24 +23,30 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+ 
     try {
-      const userData = await login(formData.user_email, formData.user_password);
-      console.log("Received userData:", userData);
-
-      // Verificar el rol de administrador
-      const userIsAdmin = await isUserAdmin(document.cookie);
-      console.log(userIsAdmin.id)
-      if (userIsAdmin.roles === "admin") {
-        navigate("/guard");
-      } else {
-        // Utilizar userId directamente si es necesario
-        navigate(`/home/${userIsAdmin.id}`);
-      }
+       const token = await login(formData.user_email, formData.user_password);
+ 
+       console.log("Received token:", token);
+ 
+       if (token) {
+          // Hacer la verificación de rol aquí después de un inicio de sesión exitoso
+          const userIsAdmin = await isUserAdmin(document.cookie);
+ 
+          if (userIsAdmin && userIsAdmin.roles === "admin") {
+             navigate("/guard");
+          } else if (userIsAdmin) {
+             navigate(`/home/${userIsAdmin.id}`);
+          } else {
+             // Si no es admin, redirige a la página de inicio de usuario normal
+             navigate(`/home/${userIsAdmin.id}`);
+          }
+       }
     } catch (error) {
-      console.error("Error en el inicio de sesión", error);
+       console.error("Error en el inicio de sesión", error);
     }
-  };
+ };
+ 
 
 
   return (

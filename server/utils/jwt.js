@@ -1,9 +1,9 @@
-import jwt from "jsonwebtoken"
-import dotenv from "dotenv"
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
-const secretKey = process.env.SECRET_KEY
+const secretKey = process.env.SECRET_KEY;
 
 export function createToken(payload) {
     return jwt.sign(payload, secretKey);

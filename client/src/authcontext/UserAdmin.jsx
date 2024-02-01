@@ -3,30 +3,21 @@ export default async function isUserAdmin() {
         const cookieString = document.cookie;
         const tokenValue = cookieString.split('=')[1];
 
-        const response = 
-        await fetch('http://localhost:6700/cerberus/users', {
+        const response = await fetch('http://localhost:6700/cerberus/users', {
             method: 'GET',
             headers: {
                 'Authorization': `${tokenValue}`
             }
         });
-        const data = await response.json();
 
-        await fetch(`http://localhost:6700/cerberus/users/${data.id}`, {
-            method: 'GET',
-            headers: {
-                'Authorization': `${tokenValue}`
-            }
-        });
-        const user = await response.json();
-
-        return user;
-
-
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        } else {
+            throw new Error(`Failed to fetch user data: ${response.status}`);
+        }
     } catch (error) {
-        console.error(error);
+        console.error("Error in isUserAdmin:", error);
         return false;
     }
 }
-
-isUserAdmin()
