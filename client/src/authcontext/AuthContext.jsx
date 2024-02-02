@@ -38,7 +38,7 @@ const logout = async () => {
         throw new Error(`Failed to logout: ${response.status}`);
      }
 
-     const data = await response.json();
+     //const data = await response.json();
      setUser(null);
   } catch (error) {
      console.error(error);

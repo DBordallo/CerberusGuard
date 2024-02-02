@@ -10,8 +10,12 @@ export const AccountCreateSchemas = (req, res, next) => {
         required_error: "Name of the App is required",
       }),
   
-      email: z.email({
-        required_error: "Email required",
+      email: z
+      .string({
+        required_error: "email is required",
+      })
+      .email({
+        required_error: "invalid email",
       }),
   
       password: z

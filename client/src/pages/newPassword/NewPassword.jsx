@@ -15,6 +15,7 @@ const NewPassword = () => {
   const [generatedPassword, setGeneratedPassword] = useState('');
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState(null);
+  const [selectedApp, setSelectedApp] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +41,11 @@ const NewPassword = () => {
   }, [isUserAdmin]);
 
   const handleSocialNetworkChange = (e) => {
-    setSelectedSocialNetwork(e.target.value);
-  };
+    const selectedId = e.target.value;
+    setSelectedSocialNetwork(selectedId);
+    const selectedApp = socialNetworks.find(network => network.id === selectedId);
+   setSelectedApp(selectedApp);
+};
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -57,23 +61,27 @@ const NewPassword = () => {
 
   const handleSavePassword = async () => {
     try {
-      if (!userId) {
-        throw new Error('No se pudo obtener el ID del usuario');
-      }
+       if (!userId || !selectedApp) {
+          throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
+       }
 
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          socialNetwork: selectedSocialNetwork,
-          app_name: name,
-          email,
-          password: generatedPassword,
-          user_id: userId,
-        }),
-      });
+       const img = selectedApp.img || '';
+ 
+       const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
+          method: 'POST',
+          headers: {
+             'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            app_id: selectedApp.id, // Utiliza el ID de la aplicación
+            app_name: selectedApp.app_names, // Puedes incluir el nombre de la aplicación si es necesario
+            email,
+            password: generatedPassword,
+            user_id: userId,
+            PreAccounts: selectedSocialNetwork,
+             img, 
+          }),
+       });
 
       if (!response.ok) {
         const errorText = await response.text();
@@ -99,17 +107,17 @@ const NewPassword = () => {
       <Row className="justify-content-md-center">
         <Col xs={12} md={6}>
           <Form className='createPasswordForm'>
-            <Form.Select
-              aria-label="Select social network"
-              value={selectedSocialNetwork}
-              onChange={handleSocialNetworkChange}
-            >
-              <option value="" disabled>Select a Social Network</option>
-              {socialNetworks.map(network => (
-                <option key={network.id} value={network.id}>{network.name}</option>
-              ))}
-              <option value="other">Other</option>
-            </Form.Select>
+          <Form.Select
+            aria-label="Select social network"
+            value={selectedSocialNetwork}
+            onChange={handleSocialNetworkChange}
+          >
+            <option value="" disabled>Select a Social Network</option>
+            {socialNetworks.map(network => (
+                <option key={network.id} value={network.id}>{network.app_names}</option>
+            ))}
+            <option value="other">Other</option>
+          </Form.Select>
 
             {selectedSocialNetwork === 'other' && (
               <Form.Group controlId="controlOtherNetwork">

@@ -8,6 +8,7 @@ import grupo from "../../../assets/grupo.png";
 import otherapps from "../../../assets/otherapps.png";
 import { AuthContext } from '../../../authcontext/AuthContext';
 import { useAuth } from '../../../authcontext/AuthContext';
+import Logout from '../../../components/logout/Logout';
 
 function UserHome() {
 
@@ -51,6 +52,7 @@ function UserHome() {
         <container className="userHome">
             <container className="headerSearch">
                 <Image src={cerberusLogo} className="cerberusLogo" />
+                <Logout />
                 <AppSearch />
                 <h6>Manage</h6>
                 <h3>Your passwords</h3>

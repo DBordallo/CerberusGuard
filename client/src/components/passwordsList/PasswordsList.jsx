@@ -67,7 +67,7 @@ const PasswordList = () => {
                     style={{ width: "3rem", maxWidth: "100px" }}
                   />
                   <div className="insideList">
-                    <h3 className="titlePasslist">{account.title}</h3>
+                    <h3 className="titlePasslist">{account.app_name}</h3>
                     <p className="namePasslist">{account.name}</p>
                     <p className="emailPasslist">{account.email}</p>
                   </div>

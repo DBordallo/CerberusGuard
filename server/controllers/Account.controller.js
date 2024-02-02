@@ -19,25 +19,12 @@ export const getAccounts = async (req, res) => {
 };
 
 export const createAccount = async (req, res) => {
-    const { app_name, email, password, img, user_id } = req.body;
+    const { app_name, email, password, user_id } = req.body;
 
     try {
 
-        if (!img) {
-            return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
-        }
 
-        const AccImage = {
-            public_id: '',
-            secure_url: '',
-        };
-
-        const result = await uploadImage(`data:image/jpeg;base64,${img}`);
-
-        if (result) {
-            AccImage.public_id = result.public_id;
-            AccImage.secure_url = result.secure_url;
-        }
+    
 
         let decodedUser;
 
@@ -60,7 +47,6 @@ export const createAccount = async (req, res) => {
             app_name,
             email,
             password,
-            img: AccImage, 
             user_id: user_id || decodedUser,
         };
 
