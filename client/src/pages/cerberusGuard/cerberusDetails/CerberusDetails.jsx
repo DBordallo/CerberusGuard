@@ -40,6 +40,7 @@ function CerberusDetails() {
         <section className="userCard">
             <h2 className="userName">{userData.userName}</h2>
             <ul>
+                <li>{userData.profile_img}</li>
                 <li>
                     <p>Email: {userData.email}</p>
                 </li>

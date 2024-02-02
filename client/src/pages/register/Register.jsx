@@ -21,9 +21,12 @@ const Register = () => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        console.log('Imagen convertida a base64:', reader.result); // Agregado para depuración
         setFormData({ ...formData, profile_img: reader.result });
       };
       reader.readAsDataURL(file);
+    } else {
+      console.log('No se seleccionó ningún archivo'); // Agregado para depuración
     }
   };
 
@@ -59,8 +62,8 @@ const Register = () => {
               <Form.Control
                 type="file"
                 placeholder="Select file"
-                name="profile_image"
-                onChange={handleChange}
+                name="profile_img"
+                onChange={handleImageChange}
               />
             </Form.Group>
 

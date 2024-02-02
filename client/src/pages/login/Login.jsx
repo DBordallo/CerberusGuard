@@ -87,9 +87,11 @@ const Login = () => {
                 <Button className="loginBtn" variant="primary" type="submit">
                   LOGIN
                 </Button>
-                <Button className="loginBtn" variant="primary" type="button">
-                  <Link to="/register">You don´t have an account?</Link>
-                </Button>
+                <Link to="/register">
+                  <Button className="loginBtn" variant="primary" type="button">
+                    You don´t have an account?
+                  </Button>
+                </Link>
               </Container>
             </Form>
           </Col>

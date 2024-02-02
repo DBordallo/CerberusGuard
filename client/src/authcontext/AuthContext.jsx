@@ -19,6 +19,7 @@ export function AuthProvider({ children }) {
      });
 
      if (!response.ok) {
+      const errorResponse = await response.json();
         throw new Error(`Failed to register: ${response.status}`);
      }
 

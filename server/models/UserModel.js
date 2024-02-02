@@ -10,7 +10,7 @@ const UserModel = db.define("users", {
         defaultValue: UUIDV4(),
         primaryKey: true,
     },
-    profile_image:{type:DataTypes.STRING},
+    profile_img:{type:DataTypes.TEXT},
     user_name:{type:DataTypes.STRING},
     user_telephone:{type:DataTypes.STRING}, 
     user_email:{type:DataTypes.STRING}, 
