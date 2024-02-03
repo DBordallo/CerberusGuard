@@ -1,5 +1,6 @@
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import UserModel from "../models/UserModel.js";
+
 import { createToken } from "../utils/jwt.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.js";
 
@@ -36,7 +37,7 @@ const authController = {
                 user_email,
                 user_password: hashedPassword,
                 roles: "user",
-                profile_img: usr_img, // Assuming you have a field in your model for the profile image
+                profile_img: usr_img,
                 ...userData,
             });
     

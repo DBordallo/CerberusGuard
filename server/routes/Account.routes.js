@@ -6,6 +6,7 @@ const router = Router()
 router.get("/", getAccounts);
 router.get("/:id", getAccount);
 router.get("/acc/:id", getAccountByUserId);
+router.get("/acc")
 router.post("/", AccountCreateSchemas, createAccount);
 router.put("/:id",  updateAccount);
 router.delete("/:id", deleteAccount);

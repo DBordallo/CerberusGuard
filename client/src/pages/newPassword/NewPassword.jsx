@@ -74,6 +74,7 @@ const NewPassword = () => {
   
       console.log('userId:', userId);
       console.log('selectedId:', selectedId); 
+      console.log(selectedSocialNetwork)
   
 
       const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
@@ -82,12 +83,10 @@ const NewPassword = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          app_id: selectedId, 
-          app_img:selectedId,
           email,
           password: generatedPassword,
           user_id: userId,
-          PreAccounts: selectedSocialNetwork,
+          PreAccounts_id: selectedId,
         }),
       });
   

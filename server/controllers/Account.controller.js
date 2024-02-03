@@ -5,6 +5,8 @@ import { uploadImage, deleteImage } from "../utils/cloudinary.js";
 import PreAccounts from "../models/PreAccountModel.js";
 import UserModel from "../models/UserModel.js";
 
+
+
 const handleServerError = (res, error) => {
     console.error(error);
     res.status(500).json({ message: error.message });
@@ -131,7 +133,22 @@ export const getAccountByUserId = async (req, res) => {
     try {
         const userId = req.params.id;
 
-        const user = await UserModel.findByPk(userId, { include: 'accounts' });
+        const user = await UserModel.findByPk(userId, {
+            include: [
+                {
+                    model: Accounts,
+                    as: 'accounts',
+                    include: [
+                        {
+                            model: PreAccounts, 
+                            as: 'preAccounts',
+                            required: false,
+                        },
+                    ],
+                },
+            ],
+        });
+
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -148,13 +165,22 @@ export const getAccountByPreAccountId = async (req, res) => {
     try {
         const preAccountId = req.params.id;
 
-        const user = await Accounts.findByPk({where: {PreAccounts_id: preAccountId}});
+        const user = await Accounts.findOne({
+            where: { PreAccounts_id: preAccountId },
+            include: [
+                {
+                    model: PreAccounts,
+                    as: 'preAccounts', 
+                    required: false,
+                },
+            ],
+        });
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        return res.json(user.accounts);
+        return res.json(user); 
     } catch (error) {
         console.error('Error getting account by user ID:', error);
         return res.status(500).json({ error: 'Internal Server Error' });
