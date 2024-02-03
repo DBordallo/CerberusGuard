@@ -10,9 +10,37 @@ const handleServerError = (res, error) => {
 };
 
 export const getAccounts = async (req, res) => {
-    const { app_name, email, password, user_id, img } = req.body;
+    try {
+        const accounts = await Accounts.findAll();
+        res.json(accounts);
+    } catch (error) {
+        handleServerError(res, error);
+    }
+};
+
+export const getAccount = async (req, res) => {
+    const { id } = req.params;
 
     try {
+        const account = await Accounts.findByPk(id);
+
+        if (!account) {
+            return res.status(404).json({ message: "Account does not exist" });
+        }
+
+        res.json(account);
+    } catch (error) {
+        handleServerError(res, error);
+    }
+};
+
+
+export const createAccount = async (req, res) => {
+    const { app_name, email, password, user_id } = req.body;
+
+    try {
+        const img = req.body.img; 
+
         if (!img) {
             return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
         }
@@ -61,25 +89,6 @@ export const getAccounts = async (req, res) => {
         return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
-
-
-
-export const getAccount = async (req, res) => {
-    const { id } = req.params;
-
-    try {
-        const account = await Accounts.findByPk(id);
-
-        if (!account) {
-            return res.status(404).json({ message: "Account does not exist" });
-        }
-
-        res.json(account);
-    } catch (error) {
-        handleServerError(res, error);
-    }
-};
-
 
 
 export const updateAccount = async (req, res) => {
