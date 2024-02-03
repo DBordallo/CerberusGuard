@@ -39,8 +39,17 @@ const authController = {
             if (!user || !(await comparePassword(user_password, user.user_password))) {
                 return res.status(401).json({ message: "Invalid Email or Password" });
             }
+
+            let userInfo = {
+                id: user.id,
+                user_name: user.user_name,
+                user_telephone: user.user_telephone,
+                user_email: user.user_email,
+                user_password:user.user_password,
+                roles:user.roles,
+            }
     
-            const token = createToken({ user }); // Asegúrate de pasar un objeto con la propiedad 'id'
+            const token = createToken({ user: userInfo }); // Asegúrate de pasar un objeto con la propiedad 'id'
             console.log("Generated token:", token);
 
             res.cookie("token", token, { httpOnly: true });

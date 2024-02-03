@@ -7,6 +7,7 @@ import cerberusLogo from "../../../assets/cerberusLogo.jpg"
 import grupo from "../../../assets/grupo.png"
 import otherapps from "../../../assets/otherapps.png"
 import UsersList from '../../../components/usersList/UsersList';
+import Logout from '../../../components/logout/Logout';
 
 
 function HomeCerberus() {
@@ -16,6 +17,7 @@ function HomeCerberus() {
     <container className="headerSearch">
     <Image src={cerberusLogo}  className="cerberusLogo" />
         <AdminUserSearch/>
+        <Logout/>
         <h3>Users</h3>
         <div className='appType'>
         </div>

@@ -73,43 +73,57 @@ const login = async (user_email, user_password) => {
 
   
 const isUserAdmin = async () => {
-  try {
-   const cookieString = document.cookie;
-   console.log(cookieString);
+   try {
+     const cookieString = document.cookie;
+     console.log('Cookie String:', cookieString);
  
-   const token = cookieString
-     .split('; ')
-     .map(cookie => {
-       const trimmedCookie = cookie.trim();
-       if (trimmedCookie.startsWith('token=')) {
-         return trimmedCookie.substring('token='.length);
-       }
-       return '';
-     })
-     .filter(Boolean)  // Eliminar cookies vacías
-     .join('; ');
-     console.log(token)
-      const response = await fetch('http://localhost:6700/cerberus/users/role', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `${token}`,
-          },
-          body: JSON.stringify({ token: token }),
-      });
-
-      if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          return data;  // Devuelve directamente los datos obtenidos del servidor
-      } else {
-          throw new Error(`Failed to fetch user data: ${response.status}`);
-      }
-  } catch (error) {
-      console.error("Error in isUserAdmin:", error);
-      return false;
-  }
-}
+     const token = cookieString
+       .split('; ')
+       .map(cookie => {
+         const trimmedCookie = cookie.trim();
+         if (trimmedCookie.startsWith('token=')) {
+            const tokenValue = trimmedCookie.substring('token='.length);
+            console.log('Token Value:', tokenValue);
+            return tokenValue;
+          }
+         return '';
+       })
+       .filter(Boolean)
+       .join('; ');
+ 
+     console.log('Extracted Token:', token);
+     console.log('All Cookies:', document.cookie);
+ 
+     const response = await fetch('http://localhost:6700/cerberus/users/role', {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+         'Authorization': `${token}`,
+       },
+       body: JSON.stringify({ token: token }),
+     });
+ 
+     console.log('Request Payload:', JSON.stringify({ token: token }));
+     console.log('Request Headers:', {
+       'Content-Type': 'application/json',
+       'Authorization': `${token}`,
+     });
+ 
+     if (response.ok) {
+       const data = await response.json();
+       console.log(data);
+       return data;
+     } else {
+       console.error('Error details:', response.statusText);
+       throw new Error(`Failed to fetch user data: ${response.status}`);
+     }
+   } catch (error) {
+     console.error("Error in isUserAdmin:", error);
+     return false;
+   }
+ }
+ 
+ 
 
   
 

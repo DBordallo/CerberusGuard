@@ -3,12 +3,12 @@ import db from '../database/db.js';
 
 const PreAccounts = db.define('PreAccounts', {
   id: {
-    type: DataTypes.UUID,
+    type: DataTypes.INTEGER,
     primaryKey: true,
+    autoIncrement: true,
     allowNull: false,
-    defaultValue: DataTypes.UUIDV4,
   },
-  app_img: {type:DataTypes.STRING},
+  app_img: {type:DataTypes.TEXT},
   app_names: {type:DataTypes.STRING}
 }, {
   timestamps: true, 

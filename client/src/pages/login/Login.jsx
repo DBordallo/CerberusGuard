@@ -26,6 +26,9 @@ const Login = () => {
       if (token) {
         const result = await isUserAdmin();
         setCondicion(result.user);
+  
+        // Considera si realmente necesitas setCondicion(result.user);
+        // setCondicion(await isUserAdmin());
       }
     } catch (error) {
       console.error("Error en el inicio de sesión", error);
