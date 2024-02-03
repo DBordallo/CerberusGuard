@@ -7,26 +7,36 @@ const saltRounds = 10;
 const authController = {
     Register: async (req, res) => {
         try {
-            const { user_email, user_password, ...userData } = req.body;
-
+            const { profile_img, user_email, user_password, ...userData } = req.body;
+    
             const existingUser = await UserModel.findOne({ where: { user_email } });
-
+    
             if (existingUser) {
                 return res.status(400).send("Email already in use");
             }
-
+    
+            const result = await uploadImage(`data:image/jpeg;base64,${profile_img}`);
+    
+            if (!result) {
+                return res.status(500).json({ error: "Error uploading image" });
+            }
+    
+            const { public_id, secure_url } = result;
+    
             const hashedPassword = await hashPassword(user_password, saltRounds);
-
+    
             const newUser = await UserModel.create({
                 user_email,
                 user_password: hashedPassword,
                 roles: "user",
+                profile_img: { public_id, secure_url }, // Assuming you have a field in your model for the profile image
                 ...userData,
             });
-
+    
             return res.status(201).json({ message: "User Created" });
         } catch (error) {
-            return res.status(500).json({ error: error.message });
+            console.error("Error in registration:", error);
+            return res.status(500).json({ error: "Internal Server Error" });
         }
     },
 

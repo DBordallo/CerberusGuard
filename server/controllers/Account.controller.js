@@ -10,21 +10,12 @@ const handleServerError = (res, error) => {
 };
 
 export const getAccounts = async (req, res) => {
-    try {
-        const accounts = await Accounts.findAll();
-        res.json(accounts);
-    } catch (error) {
-        handleServerError(res, error);
-    }
-};
-
-export const createAccount = async (req, res) => {
-    const { app_name, email, password, user_id } = req.body;
+    const { app_name, email, password, user_id, img } = req.body;
 
     try {
-
-
-    
+        if (!img) {
+            return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
+        }
 
         let decodedUser;
 
@@ -36,7 +27,19 @@ export const createAccount = async (req, res) => {
             }
 
             decodedUser = decodeToken(token);
-            
+
+            try {
+                const result = await uploadImage(`data:image/jpeg;base64,${img}`);
+
+                if (result) {
+                    AccImage.public_id = result.public_id;
+                    AccImage.secure_url = result.secure_url;
+                } else {
+                    return res.status(500).json({ error: 'Error uploading image' });
+                }
+            } catch (uploadError) {
+                return res.status(500).json({ error: 'Error uploading image', details: uploadError.message });
+            }
 
             if (!decodedUser) {
                 return res.status(401).json({ error: 'Invalid token' });
@@ -47,13 +50,15 @@ export const createAccount = async (req, res) => {
             app_name,
             email,
             password,
+            img: AccImage,
             user_id: user_id || decodedUser,
         };
 
         const newAccount = await Accounts.create(newAccountData);
-        res.json(newAccount);
+        return res.json(newAccount);
     } catch (error) {
-        handleServerError(res, error);
+        console.error('Error in createAccount:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 
