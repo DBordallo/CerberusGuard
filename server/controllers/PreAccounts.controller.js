@@ -16,14 +16,25 @@ export const getPreAccounts = async (req, res) => {
 };
 
 export const createPreAccount = async (req, res) => {
-        try{
-            await PreAccounts.create(req.body)
-            res.status(200).json({message: "This User has been added successfully!"})
-        }catch (error){
-            res.status(500).json({message: error})
-        }
-    }
+    try {
+        const { app_img, ...otherData } = req.body;
 
+        const result = await uploadImage(`data:image/jpeg;base64,${app_img}`);
+        
+        if (!result) {
+            return res.status(500).json({ error: 'Error uploading image' });
+        }
+
+        const { public_id, secure_url } = result;
+
+        await PreAccounts.create({ ...otherData, app_img: { public_id, secure_url } });
+        
+        return res.status(200).json({ message: "This User has been added successfully!" });
+    } catch (error) {
+        console.error('Error in createPreAccount:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 
 
 export const getPreAccount = async (req, res) => {
