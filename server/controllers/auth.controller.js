@@ -1,6 +1,7 @@
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import UserModel from "../models/UserModel.js";
 import { createToken } from "../utils/jwt.js";
+import { uploadImage, deleteImage } from "../utils/cloudinary.js";
 
 const saltRounds = 10;
 
@@ -14,14 +15,20 @@ const authController = {
             if (existingUser) {
                 return res.status(400).send("Email already in use");
             }
-    
+            let usr_img = {
+                public_id: "",
+                secure_url: ""
+            }
             const result = await uploadImage(`data:image/jpeg;base64,${profile_img}`);
     
             if (!result) {
                 return res.status(500).json({ error: "Error uploading image" });
             }
     
-            const { public_id, secure_url } = result;
+           usr_img = {
+            public_id: result.public_id,
+            secure_url: result.secure_url
+           }
     
             const hashedPassword = await hashPassword(user_password, saltRounds);
     
@@ -29,7 +36,7 @@ const authController = {
                 user_email,
                 user_password: hashedPassword,
                 roles: "user",
-                profile_img: { public_id, secure_url }, // Assuming you have a field in your model for the profile image
+                profile_img: usr_img, // Assuming you have a field in your model for the profile image
                 ...userData,
             });
     
@@ -50,16 +57,8 @@ const authController = {
                 return res.status(401).json({ message: "Invalid Email or Password" });
             }
 
-            let userInfo = {
-                id: user.id,
-                user_name: user.user_name,
-                user_telephone: user.user_telephone,
-                user_email: user.user_email,
-                user_password:user.user_password,
-                roles:user.roles,
-            }
     
-            const token = createToken({ user: userInfo }); // Asegúrate de pasar un objeto con la propiedad 'id'
+            const token = createToken({ user});
             console.log("Generated token:", token);
 
             res.cookie("token", token, { httpOnly: true });

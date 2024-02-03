@@ -2,21 +2,13 @@ import { DataTypes } from 'sequelize';
 import { UUIDV4 } from "sequelize";
 import bcrypt from 'bcrypt';
 import db from '../database/db.js';
-import PreAccounts from './PreAccountModel.js';
+
 
 const Accounts = db.define('Account', {
   id: {
     type: DataTypes.UUID,
     defaultValue: UUIDV4(),
     primaryKey: true,
-    allowNull: false,
-  },
-  img: {
-    type: DataTypes.JSON,
-    allowNull: true,
-  },
-  app_name: {
-    type: DataTypes.STRING,
     allowNull: false,
   },
   email: {
@@ -38,7 +30,7 @@ const Accounts = db.define('Account', {
       type: DataTypes.STRING,
       allowNull: false,
       },
-    PreAccounts: {
+    PreAccounts_id: {
       type: DataTypes.STRING,
       allowNull: false,
       }  
@@ -46,9 +38,6 @@ const Accounts = db.define('Account', {
 }, {
   timestamps: true, 
 });
-
-Accounts.belongsTo(PreAccounts, { foreignKey: 'PreAccounts', as: "preAccounts" });
-PreAccounts.hasMany(Accounts, { foreignKey: 'PreAccounts', as: 'Accounts' });
 
 
 

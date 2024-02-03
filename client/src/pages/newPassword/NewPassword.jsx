@@ -15,20 +15,23 @@ const NewPassword = () => {
   const [generatedPassword, setGeneratedPassword] = useState('');
   const [userId, setUserId] = useState(null);
   const [error, setError] = useState(null);
-  const [selectedApp, setSelectedApp] = useState(null);
+  const [selectedId, setSelectedApp] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await isUserAdmin();
 
-        if (result) {
+        if (result && result.user && result.user.id) {
           setUserId(result.user.id);
         } else {
           console.error('Error al obtener los datos de usuario');
         }
       } catch (error) {
         console.error('Error al recibir los datos del usuario', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -36,17 +39,72 @@ const NewPassword = () => {
 
     fetch('http://localhost:6700/cerberus/preaccounts/')
       .then(response => response.json())
-      .then(data => setSocialNetworks(data))
-      .catch(error => console.error('Error fetching social networks:', error));
+      .then(data => {
+        setSocialNetworks(data);
+        console.log('Social Networks:', data);
+      })
+      .catch(error => {
+        console.error('Error fetching social networks:', error);
+      })
+      .finally(() => setLoading(false));
   }, [isUserAdmin]);
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   const handleSocialNetworkChange = (e) => {
     const selectedId = e.target.value;
-    setSelectedSocialNetwork(selectedId);
-    const selectedApp = socialNetworks.find(network => network.id === selectedId);
-   setSelectedApp(selectedApp);
-};
+    console.log('Selected ID:', selectedId);
+  
+    // Maneja el caso en que la red social es 'other'
+    if (selectedId === 'other') {
+      setSelectedApp(null); // Resetea selectedId para 'other'
+    } else {
+      setSelectedApp(selectedId);
+    }
+  
+    console.log('Selected App:', selectedId); // Agrega este console.log para verificar selectedId
+  };
+  
+  const handleSavePassword = async () => {
+    try {
+      if (!userId || !selectedId) {
+        throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
+      }
+  
+      console.log('userId:', userId);
+      console.log('selectedId:', selectedId); 
+  
 
+      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          app_id: selectedId, 
+          app_img:selectedId,
+          email,
+          password: generatedPassword,
+          user_id: userId,
+          PreAccounts: selectedSocialNetwork,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        setError(`Error al guardar la contraseña y la información del usuario: ${errorText}`);
+        console.error('Respuesta del servidor:', errorText);
+        return;
+      }
+  
+      const data = await response.json();
+      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
+    } catch (error) {
+      setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
+      console.error('Error al guardar la contraseña y la información del usuario:', error);
+    }
+  };
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -59,44 +117,6 @@ const NewPassword = () => {
     setGeneratedPassword(newPassword);
   };
 
-  const handleSavePassword = async () => {
-    try {
-       if (!userId || !selectedApp) {
-          throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
-       }
-
-       const img = selectedApp.img || '';
- 
-       const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
-          method: 'POST',
-          headers: {
-             'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            app_id: selectedApp.id, // Utiliza el ID de la aplicación
-            app_name: selectedApp.app_names, // Puedes incluir el nombre de la aplicación si es necesario
-            email,
-            password: generatedPassword,
-            user_id: userId,
-            PreAccounts: selectedSocialNetwork,
-             img, 
-          }),
-       });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        setError(`Error al guardar la contraseña y la información del usuario: ${errorText}`);
-        console.error('Respuesta del servidor:', errorText);
-        return;
-      }
-
-      const data = await response.json();
-      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
-    } catch (error) {
-      setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
-      console.error('Error al guardar la contraseña y la información del usuario:', error);
-    }
-  };
 
 
   return (
@@ -114,7 +134,9 @@ const NewPassword = () => {
           >
             <option value="" disabled>Select a Social Network</option>
             {socialNetworks.map(network => (
-                <option key={network.id} value={network.id}>{network.app_names}</option>
+              <option key={network.id} value={network.id}>
+                {network.app_names}
+              </option>
             ))}
             <option value="other">Other</option>
           </Form.Select>

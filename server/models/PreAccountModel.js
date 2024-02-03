@@ -6,9 +6,9 @@ const PreAccounts = db.define('PreAccounts', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-    allowNull: false,
+    allowNull: true,
   },
-  app_img: {type:DataTypes.TEXT},
+  app_img: {type:DataTypes.JSON},
   app_names: {type:DataTypes.STRING}
 }, {
   timestamps: true, 

@@ -7,6 +7,7 @@ import "./Register.css"
 
 const Register = () => {
   const { signup } = useAuth();
+  const [imageUrl, setImageUrl] = useState('')
   const [formData, setFormData] = useState({
     profile_img: "",
     user_name:"",
@@ -16,19 +17,25 @@ const Register = () => {
   });
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        console.log('Imagen convertida a base64:', reader.result); // Agregado para depuración
-        setFormData({ ...formData, profile_img: reader.result });
-      };
-      reader.readAsDataURL(file);
+    const imageFile = e.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onload = (event) => {
+      const base64String = event.target.result.split(',')[1];
+      setImageUrl(base64String);
+  
+      const newFormData = { ...formData, profile_img: base64String };
+      setFormData(newFormData);
+      console.log('Imagen convertida a base64:', base64String); // Agregado para depuración
+    };
+  
+    if (imageFile) {
+      reader.readAsDataURL(imageFile);
     } else {
       console.log('No se seleccionó ningún archivo'); // Agregado para depuración
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,7 +49,7 @@ const Register = () => {
       await signup(formData.profile_img, formData.user_name, formData.user_telephone, formData.user_email, formData.user_password);
       console.log('Registro exitoso');
     } catch (error) {
-      console.error('Error en el registro', error);
+      console.error('Error en el registro',  error.response.data)
     }
   };
 

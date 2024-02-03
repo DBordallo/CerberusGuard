@@ -2,6 +2,7 @@ import Accounts from "../models/AccountModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import { decodeToken, createToken } from "../utils/jwt.js";
 import { uploadImage, deleteImage } from "../utils/cloudinary.js";
+import PreAccounts from "../models/PreAccountModel.js";
 import UserModel from "../models/UserModel.js";
 
 const handleServerError = (res, error) => {
@@ -11,7 +12,15 @@ const handleServerError = (res, error) => {
 
 export const getAccounts = async (req, res) => {
     try {
-        const accounts = await Accounts.findAll();
+        const accounts = await Accounts.findAll({
+            include: [
+                {
+                    model: PreAccounts,
+                    as: 'preAccounts',
+                    required: false,
+                },
+            ],
+        });
         res.json(accounts);
     } catch (error) {
         handleServerError(res, error);
@@ -36,16 +45,10 @@ export const getAccount = async (req, res) => {
 
 
 export const createAccount = async (req, res) => {
-    const { app_name, email, password, user_id } = req.body;
+    const { email, password, user_id, PreAccounts_id } = req.body;
 
     try {
-        const img = req.body.img; 
 
-        if (!img) {
-            return res.status(400).json({ error: 'La imagen es requerida para crear una cuenta.' });
-        }
-
-        let decodedUser;
 
         if (!user_id) {
             const token = req.cookies.token || req.headers.authorization;
@@ -56,18 +59,6 @@ export const createAccount = async (req, res) => {
 
             decodedUser = decodeToken(token);
 
-            try {
-                const result = await uploadImage(`data:image/jpeg;base64,${img}`);
-
-                if (result) {
-                    AccImage.public_id = result.public_id;
-                    AccImage.secure_url = result.secure_url;
-                } else {
-                    return res.status(500).json({ error: 'Error uploading image' });
-                }
-            } catch (uploadError) {
-                return res.status(500).json({ error: 'Error uploading image', details: uploadError.message });
-            }
 
             if (!decodedUser) {
                 return res.status(401).json({ error: 'Invalid token' });
@@ -75,11 +66,10 @@ export const createAccount = async (req, res) => {
         }
 
         const newAccountData = {
-            app_name,
             email,
             password,
-            img: AccImage,
             user_id: user_id || decodedUser,
+            PreAccounts_id
         };
 
         const newAccount = await Accounts.create(newAccountData);
@@ -142,6 +132,23 @@ export const getAccountByUserId = async (req, res) => {
         const userId = req.params.id;
 
         const user = await UserModel.findByPk(userId, { include: 'accounts' });
+
+        if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        return res.json(user.accounts);
+    } catch (error) {
+        console.error('Error getting account by user ID:', error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+export const getAccountByPreAccountId = async (req, res) => {
+    try {
+        const preAccountId = req.params.id;
+
+        const user = await Accounts.findByPk({where: {PreAccounts_id: preAccountId}});
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

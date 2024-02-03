@@ -58,20 +58,19 @@ const PasswordList = () => {
       ) : (
         <>
           <ul className="listPass">
-            {getCurrentPageData().map((account) => (
-              <li key={account.id} className="PassItems">
-                <div className="PassInfo">
-                  <img
-                    src={account.image}
-                    alt={`Imagen de ${account.title}`}
-                    style={{ width: "3rem", maxWidth: "100px" }}
-                  />
-                  <div className="insideList">
-                    <h3 className="titlePasslist">{account.app_name}</h3>
-                    <p className="namePasslist">{account.name}</p>
-                    <p className="emailPasslist">{account.email}</p>
-                  </div>
-                  <button className="Btn-more">.<br />.<br />.</button>
+          {getCurrentPageData().map((account) => (
+            <li key={account.id} className="PassItems">
+              <div className="PassInfo">
+                <img
+                  src={account.preAccounts.app_img.secure_url}
+                  alt={`Imagen de ${account.preAccounts.app_names}`}
+                  style={{ width: "3rem", maxWidth: "100px" }}
+                />
+                <div className="insideList">
+                  <h3 className="titlePasslist">{account.preAccounts.app_names}</h3>
+                  <p className="emailPasslist">{account.email}</p>
+                </div>
+                <button className="Btn-more">.<br />.<br />.</button>
                 </div>
               </li>
             ))}

@@ -11,25 +11,26 @@ export function AuthProvider({ children }) {
  const [loading, setLoading] = useState(true);
 
  const signup = async (profile_img, user_name, user_telephone, user_email, user_password) => {
-  try {
+   try {
      const response = await fetch('http://localhost:6700/cerberus/auth/register', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ profile_img, user_name, user_telephone, user_email, user_password }),
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({ profile_img, user_name, user_telephone, user_email, user_password }),
      });
-
+ 
      if (!response.ok) {
-      const errorResponse = await response.json();
-        throw new Error(`Failed to register: ${response.status}`);
+       const errorResponse = await response.json();
+       throw new Error(`Failed to register: ${errorResponse.error}`);
      }
-
+ 
      const data = await response.json();
      setUser(data.user);
-  } catch (error) {
+   } catch (error) {
      console.error(error);
      throw new Error("Failed to register");
-  }
-};
+   }
+ };
+ 
 
 const logout = async () => {
   try {

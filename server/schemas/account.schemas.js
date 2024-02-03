@@ -2,13 +2,6 @@ import { z } from "zod";
 
 export const AccountCreateSchemas = (req, res, next) => {
     const accountCreateSchema = z.object({
-      img: z.string({
-        required_error: "Image required",
-      }),
-  
-      app_name: z.string({
-        required_error: "Name of the App is required",
-      }),
   
       email: z
       .string({
@@ -22,8 +15,8 @@ export const AccountCreateSchemas = (req, res, next) => {
         .string({
           required_error: "Password is required",
         })
-        .min(6, {
-          message: "Password must be at least 6 characters",
+        .min(10, {
+          message: "Password must be at least 10 characters",
         }),
     });
   
