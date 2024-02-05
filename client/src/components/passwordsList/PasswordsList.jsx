@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./PasswordList.css";
 import Pagination from "../pagination/Pagination";
 import { useAuth } from "../../authcontext/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const PasswordList = () => {
   const { isUserAdmin } = useAuth();
@@ -10,6 +11,7 @@ const PasswordList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const [userAccounts, setUserAccounts] = useState([]);
+  const history = useNavigate();
 
   useEffect(() => {
     const getUserData = async () => {
@@ -40,45 +42,66 @@ const PasswordList = () => {
     getUserData();
   }, [isUserAdmin]);
 
-  if (!userData) {
-    return null;
-  }
-
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * pageSize;
     const endIndex = startIndex + pageSize;
     return userAccounts.slice(startIndex, endIndex);
   };
 
+  const handleEdit = (accountId) => {
+    history(`/editaccount/${accountId}`);
+  };
+
+  const handleDelete = async (accountId) => {
+    try {
+      const response = await fetch(`http://localhost:6700/cerberus/accounts/${accountId}`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setUserAccounts(userAccounts.filter(account => account.id !== accountId));
+      } else {
+        console.error('Error deleting account:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error deleting account:', error);
+    }
+  };
+
   return (
     <div className="containerList">
       <h2>My Passwords</h2>
       {userAccounts.length === 0 ? (
-  <p>No tienes cuentas asignadas. <Link to={`/addaccount/${userData.user.id}`}>Registra cuentas para verlas aquí.</Link> </p>
-) : (
-  <>
-    <ul className="listPass">
-      {userAccounts.length > 0 &&
-        getCurrentPageData().map((account) => (
-          <li key={account.id} className="PassItems">
-             <div className="PassInfo">
-              {account.preAccounts && account.preAccounts.app_img && account.preAccounts.app_names && (
-                <>
-                  <img
-                    src={account.preAccounts.app_img.secure_url}
-                    alt={`Imagen de ${account.preAccounts.app_names}`}
-                    style={{ width: "3rem", maxWidth: "100px" }}
-                  />
-                  <div className="insideList">
-                    <h3 className="titlePasslist">{account.preAccounts.app_names}</h3>
-                    <p className="emailPasslist">{account.email}</p>
+        <p>No tienes cuentas asignadas. <Link to={`/addaccount/${userData?.user?.id}`}>Registra cuentas para verlas aquí.</Link> </p>
+      ) : (
+        <>
+          <ul className="listPass">
+            {userAccounts.length > 0 &&
+              getCurrentPageData().map((account) => (
+                <li key={account.id} className="PassItems">
+                  <div className="PassInfo">
+                    {account.preAccounts && account.preAccounts.app_img && account.preAccounts.app_names && (
+                      <>
+                        <img
+                          src={account.preAccounts.app_img.secure_url}
+                          alt={`Imagen de ${account.preAccounts.app_names}`}
+                          style={{ width: "3rem", maxWidth: "100px" }}
+                        />
+                        <div className="insideList">
+                          <h3 className="titlePasslist">{account.preAccounts.app_names}</h3>
+                          <p className="emailPasslist">{account.email}</p>
+                        </div>
+                        <Button variant="outline-secondary" onClick={() => handleEdit(account.id)}>
+                          Editar
+                        </Button>
+                        <Button variant="outline-danger" onClick={() => handleDelete(account.id)}>
+                          Eliminar
+                        </Button>
+                      </>
+                    )}
                   </div>
-                  <button className="Btn-more">.<br />.<br />.</button>
-                </>
-              )}
-            </div>
-            </li>
-            ))}
+                </li>
+              ))}
           </ul>
           <div className="pagination">
             <Pagination

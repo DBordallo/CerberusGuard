@@ -9,6 +9,7 @@ import UserHome from "../pages/user/userHome/UserHome";
 import HomeCerberus from "../pages/cerberusGuard/homeCerberus/HomeCerberus";
 import Profile from "../pages/profile/Profile"
 import MiComponente from "../authcontext/AuthComponent";
+import EditAccount from "../components/editaccount/editaccount";
 
 const router = createBrowserRouter([
     {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
                 
                 
             },
+            {
+                path: "/editaccount/:id",
+                element: <EditAccount />,
+              },
 
 
             //ADMIN
