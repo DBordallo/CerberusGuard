@@ -114,14 +114,14 @@ const PasswordList = () => {
                           </p>
                         </div>
                         <div className="allBtn">
-                        <Button variant="outline-secondary" onClick={() => handleEdit(account.id)}>
+                        <Button className="editbtn" variant="outline-secondary" onClick={() => handleEdit(account.id)}>
                           Edit
                         </Button>
-                        <Button variant="outline-danger" onClick={() => handleDelete(account.id)}>
+                        <Button className="editbtn" variant="outline-danger" onClick={() => handleDelete(account.id)}>
                           
                           Delete
                         </Button>
-                        <Button
+                        <Button className="editbtn"
   variant="outline-info"
   onClick={() => togglePasswordVisibility(account.id)}
 >
