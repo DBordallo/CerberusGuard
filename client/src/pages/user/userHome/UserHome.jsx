@@ -6,6 +6,10 @@ import Image from 'react-bootstrap/Image';
 import cerberusLogo from "../../../assets/cerberusLogo.jpg";
 import { useAuth } from '../../../authcontext/AuthContext';
 import Logout from '../../../components/logout/Logout';
+import Nav from '../../../components/Nav/Nav';
+import passwordGray from "../../../assets/passwordGray.png";
+import homeWhite from "../../../assets/homeWhite.png";
+import profileGray from "../../../assets/profileGray.png"
 
 function UserHome() {
   const [userData, setUserData] = useState(null);
@@ -59,7 +63,9 @@ function UserHome() {
             <section className='myPasswords'>
                 <br />
                 <PasswordList />
+            <Nav home = {homeWhite} password={passwordGray} profile ={profileGray} ></Nav>
             </section>
+
     </container>
     );
 }

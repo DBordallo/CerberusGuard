@@ -2,6 +2,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
+import Nav from "../Nav/Nav";
+import homeGray from "../../assets/homeGray.png";
+import passwordGray from "../../assets/passwordGray.png";
+import profileGray from "../../assets/profileGray.png"
+
+
 
 const EditAccount = () => {
   const { id } = useParams();
@@ -96,6 +102,8 @@ const EditAccount = () => {
           Actualizar
         </Button>
       </Form>
+      <Nav home = {homeGray} password={passwordGray} profile ={profileGray} ></Nav>
+
     </div>
   );
 };

@@ -4,6 +4,10 @@ import PasswordGenerator from '../../components/passwordGenerator/PasswordGenera
 import HeaderLogoText from '../../components/headerLogo+text/HeaderLogoText';
 import { useAuth } from '../../authcontext/AuthContext';
 import { useParams } from 'react-router-dom';
+import Nav from '../../components/Nav/Nav';
+import homeGray from "../../assets/homeGray.png";
+import profileGray from "../../assets/profileGray.png"
+import passwordWhite from "../../assets/passwordWhite.png"
 
 const NewPassword = () => {
   const { id } = useParams();
@@ -178,6 +182,7 @@ const NewPassword = () => {
         </Col>
       </Row>
     </Container>
+    <Nav home = {homeGray} password={passwordWhite} profile ={profileGray} ></Nav>
     </Container>
   );
 }
