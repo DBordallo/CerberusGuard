@@ -62,7 +62,7 @@ const authController = {
             const token = createToken({ user});
             console.log("Generated token:", token);
 
-            res.cookie("token", token, { httpOnly: true });
+            res.cookie("token", token, { httpOnly: true, secure: true, sameSite:'Strict' });
     
             return res.status(200).json({ token });
         } catch (error) {
@@ -75,7 +75,7 @@ const authController = {
 
     Logout: (_req, res) => {
         try {
-            res.clearCookie("token");
+            res.clearCookie("token", token, { httpOnly: true, secure: true, sameSite:'Strict' });
             return res.status(200).json({ message: "Logout successful" });
         } catch (error) {
             return res.status(500).json({ error: error.message });

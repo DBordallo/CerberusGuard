@@ -16,6 +16,7 @@ const db = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   dialect: DB_DIALECT,
   port: DB_PORT,
+  logging: false, //Disables sequelize from logging requests to the console//
 });
 
 export default db;
