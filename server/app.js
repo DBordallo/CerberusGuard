@@ -23,6 +23,7 @@ app.use(helmet({
     },
     xssFilter: true,
     noSniff: true,
+    hidePoweredBy: {},
   }));
 
 app.get('/', (_req , res) =>{
