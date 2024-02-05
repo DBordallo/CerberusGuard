@@ -5,18 +5,18 @@ import ErrorElement from "../pages/errorElement/ErrorElement";
 import UserHome from "../pages/user/userHome/UserHome";
 
 const ComponenteCondicional = ({ condicion }) => {
-    if (condicion && condicion.roles && condicion.id) {
-      if (condicion.roles === "admin") {
-        return <HomeCerberus />;
-      } else if (condicion.roles === "user") {
-        return <UserHome userId={condicion.id} />;
-      } else {
-        return <ErrorElement />;
-      }
-    } else {
-      return <ErrorElement />;
-    }
-  };
+  if (!condicion) {
+    return <ErrorElement />;
+  }
+
+  if (condicion.roles === "admin") {
+    return <HomeCerberus />;
+  } else if (condicion.roles === "user") {
+    return <UserHome userId={condicion.id} />;
+  } else {
+    return <ErrorElement />;
+  }
+};
 function MiComponente() {
     const [condicion, setCondicion] = useState(null);
     const {isUserAdmin } = useAuth()
@@ -24,6 +24,7 @@ function MiComponente() {
 
     useEffect(() => {
     isUserAdmin().then(result => {
+      console.log("Result from isUserAdmin:", result);
         if (result && result.user && result.user.roles) {
           setCondicion(result.user);
         } else {
@@ -34,7 +35,7 @@ function MiComponente() {
         console.error("Error fetching user data:", error);
         setCondicion(null); // En caso de un error
       });
-  }, []);
+  }, [isUserAdmin]);
 
   return (
     <div>

@@ -49,7 +49,7 @@ function UserHome() {
           <img src={userData.user.profile_img.secure_url} alt="Profile" className="profileImg" />
 
         <h2>Welcome, {userData.user.user_name}</h2>
-        <Logout />
+        <Logout condicion={condicion}/>
         <br />
         <AppSearch />
         <h4>Your passwords</h4>
