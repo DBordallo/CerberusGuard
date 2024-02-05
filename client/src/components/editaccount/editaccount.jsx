@@ -1,14 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import Nav from "../Nav/Nav";
+import "./editaccount.css";
 import homeGray from "../../assets/homeGray.png";
 import passwordGray from "../../assets/passwordGray.png";
-import profileGray from "../../assets/profileGray.png"
+import profileGray from "../../assets/profileGray.png";
 import PasswordGenerator from "../passwordGenerator/PasswordGenerator";
-
-
 
 const EditAccount = () => {
   const { id } = useParams();
@@ -18,48 +16,33 @@ const EditAccount = () => {
     email: "",
     password: "",
   });
+  const [generatedPassword, setGeneratedPassword] = useState(""); // Nuevo estado para la contraseña generada
 
   const handleGeneratePassword = (newPassword) => {
     setGeneratedPassword(newPassword);
   };
 
-
   const handleSavePassword = async () => {
     try {
-      if (!userId || !selectedId) {
-        throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
-      }
-  
-      console.log('userId:', userId);
-      console.log('selectedId:', selectedId); 
-      console.log(selectedSocialNetwork)
-  
-
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
-        method: 'POST',
+      const response = await fetch(`http://localhost:6700/cerberus/accounts/${id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email,
+          // Otros campos que puedas querer actualizar
           password: generatedPassword,
-          user_id: userId,
-          PreAccounts_id: selectedId,
         }),
       });
-  
-      if (!response.ok) {
-        const errorText = await response.text();
-        setError(`Error al guardar la contraseña y la información del usuario: ${errorText}`);
-        console.error('Respuesta del servidor:', errorText);
-        return;
+
+      if (response.ok) {
+        console.log("Contraseña actualizada con éxito");
+        // Puedes manejar el éxito de la actualización aquí
+      } else {
+        console.error("Error al actualizar la contraseña:", response.statusText);
       }
-  
-      const data = await response.json();
-      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
     } catch (error) {
-      setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
-      console.error('Error al guardar la contraseña y la información del usuario:', error);
+      console.error("Error al actualizar la contraseña:", error);
     }
   };
 
@@ -111,7 +94,7 @@ const EditAccount = () => {
 
   return (
     <div>
-      <h2>Edit Account</h2>
+      <h2 className="editTitle">Edit Account</h2>
       <Form>
         <Form.Group controlId="formName">
           <Form.Label>Name</Form.Label>
@@ -134,19 +117,19 @@ const EditAccount = () => {
           />
         </Form.Group>
         <Form.Group controlId="formPassword">
-          <Form.Label>New Password
-          </Form.Label>
+          <Form.Label>New Password</Form.Label>
         </Form.Group>
-        <PasswordGenerator/>
-        <Button style={{marginTop:"1rem"}} variant="primary" onClick={handleSavePassword}>
-              Save
-            </Button>
-        <Button variant="primary" onClick={handleUpdate}>
-          Update
-        </Button>
+        <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
+        <div className="SaveUpdate">
+          <Button style={{ marginTop: "1rem" }} variant="primary" onClick={handleSavePassword}>
+            Save
+          </Button>
+          <Button style={{ marginTop: "1rem" }} variant="primary" onClick={handleUpdate}>
+            Update
+          </Button>
+        </div>
       </Form>
-      <Nav home = {homeGray} password={passwordGray} profile ={profileGray} ></Nav>
-
+      <Nav home={homeGray} password={passwordGray} profile={profileGray}></Nav>
     </div>
   );
 };
