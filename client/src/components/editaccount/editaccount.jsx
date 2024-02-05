@@ -6,6 +6,7 @@ import Nav from "../Nav/Nav";
 import homeGray from "../../assets/homeGray.png";
 import passwordGray from "../../assets/passwordGray.png";
 import profileGray from "../../assets/profileGray.png"
+import PasswordGenerator from "../passwordGenerator/PasswordGenerator";
 
 
 
@@ -17,6 +18,50 @@ const EditAccount = () => {
     email: "",
     password: "",
   });
+
+  const handleGeneratePassword = (newPassword) => {
+    setGeneratedPassword(newPassword);
+  };
+
+
+  const handleSavePassword = async () => {
+    try {
+      if (!userId || !selectedId) {
+        throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
+      }
+  
+      console.log('userId:', userId);
+      console.log('selectedId:', selectedId); 
+      console.log(selectedSocialNetwork)
+  
+
+      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password: generatedPassword,
+          user_id: userId,
+          PreAccounts_id: selectedId,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorText = await response.text();
+        setError(`Error al guardar la contraseña y la información del usuario: ${errorText}`);
+        console.error('Respuesta del servidor:', errorText);
+        return;
+      }
+  
+      const data = await response.json();
+      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
+    } catch (error) {
+      setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
+      console.error('Error al guardar la contraseña y la información del usuario:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchAccountData = async () => {
@@ -69,7 +114,7 @@ const EditAccount = () => {
       <h2>Edit Account</h2>
       <Form>
         <Form.Group controlId="formName">
-          <Form.Label>Nombre</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Nuevo nombre"
@@ -79,7 +124,7 @@ const EditAccount = () => {
           />
         </Form.Group>
         <Form.Group controlId="formEmail">
-          <Form.Label>Correo electrónico</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             placeholder="Nuevo correo electrónico"
@@ -89,17 +134,15 @@ const EditAccount = () => {
           />
         </Form.Group>
         <Form.Group controlId="formPassword">
-          <Form.Label>Nueva contraseña</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Nueva contraseña"
-            name="password"
-            value={updatedData.password}
-            onChange={handleChange}
-          />
+          <Form.Label>New Password
+          </Form.Label>
         </Form.Group>
+        <PasswordGenerator/>
+        <Button style={{marginTop:"1rem"}} variant="primary" onClick={handleSavePassword}>
+              Save
+            </Button>
         <Button variant="primary" onClick={handleUpdate}>
-          Actualizar
+          Update
         </Button>
       </Form>
       <Nav home = {homeGray} password={passwordGray} profile ={profileGray} ></Nav>

@@ -4,6 +4,8 @@ import Pagination from "../pagination/Pagination";
 import { useAuth } from "../../authcontext/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import eye from "../../assets/eye.png";
+import closeeye from '../../assets/closeeye.png';
 
 const PasswordList = () => {
   const { isUserAdmin } = useAuth();
@@ -11,6 +13,7 @@ const PasswordList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 5;
   const [userAccounts, setUserAccounts] = useState([]);
+  const [passwordVisibility, setPasswordVisibility] = useState({}); // Nuevo estado para controlar la visibilidad de las contraseñas
   const history = useNavigate();
 
   useEffect(() => {
@@ -26,6 +29,12 @@ const PasswordList = () => {
           if (appsResponse.ok) {
             const accountsData = await appsResponse.json();
             setUserAccounts(accountsData);
+            // Inicializar el estado de la visibilidad de las contraseñas para cada cuenta
+            const initialVisibility = {};
+            accountsData.forEach(account => {
+              initialVisibility[account.id] = false;
+            });
+            setPasswordVisibility(initialVisibility);
           } else {
             console.error(
               'Error al obtener la cantidad de aplicaciones del usuario'
@@ -68,6 +77,13 @@ const PasswordList = () => {
     }
   };
 
+  const togglePasswordVisibility = (accountId) => {
+    setPasswordVisibility({
+      ...passwordVisibility,
+      [accountId]: !passwordVisibility[accountId],
+    });
+  };
+
   return (
     <div className="containerList">
       <h2>My Passwords</h2>
@@ -90,13 +106,33 @@ const PasswordList = () => {
                         <div className="insideList">
                           <h3 className="titlePasslist">{account.preAccounts.app_names}</h3>
                           <p className="emailPasslist">{account.email}</p>
+                          <p className="usernamePasslist">{account.username}</p>
+                          <p className="passwordPasslist">
+                            {passwordVisibility[account.id]
+                              ? account.password
+                              : "••••••••"}
+                          </p>
                         </div>
+                        <div className="allBtn">
                         <Button variant="outline-secondary" onClick={() => handleEdit(account.id)}>
-                          Editar
+                          Edit
                         </Button>
                         <Button variant="outline-danger" onClick={() => handleDelete(account.id)}>
-                          Eliminar
+                          
+                          Delete
                         </Button>
+                        <Button
+  variant="outline-info"
+  onClick={() => togglePasswordVisibility(account.id)}
+>
+  <img
+    src={passwordVisibility[account.id] ? closeeye : eye}
+    alt={passwordVisibility[account.id] ? 'close eye' : 'eye'}
+    style={{ width: '20px', height: '20px', marginRight: '5px' }}
+  />
+</Button>
+</div>
+
                       </>
                     )}
                   </div>
