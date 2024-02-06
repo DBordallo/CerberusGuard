@@ -87,16 +87,16 @@ export const updateAccount = async (req, res) => {
     const { id } = req.params;
 
     try {
+        let updatedAccount;
         
         if (req.body.password) {
-           
             req.body.password = await hashPassword(req.body.password);
         }
 
-       
-        const [updatedCount, [updatedAccount]] = await Accounts.update(req.body, { where: { id }, returning: true });
+        const updatedCount = await Accounts.update(req.body, { where: { id } });
 
         if (updatedCount > 0) {
+            updatedAccount = await Accounts.findOne({ where: { id } });
             res.json({ message: 'Account updated successfully', Account: updatedAccount });
         } else {
             res.status(404).json({ message: 'Account not found' });
