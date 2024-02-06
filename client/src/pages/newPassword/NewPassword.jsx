@@ -3,11 +3,14 @@ import { Form, Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import PasswordGenerator from '../../components/passwordGenerator/PasswordGenerator';
 import HeaderLogoText from '../../components/headerLogo+text/HeaderLogoText';
 import { useAuth } from '../../authcontext/AuthContext';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom'; 
 import Nav from '../../components/Nav/Nav';
 import homeGray from "../../assets/homeGray.png";
 import profileGray from "../../assets/profileGray.png"
 import passwordWhite from "../../assets/passwordWhite.png"
+import "./NewPassword.css"
+import { confirmAlert } from 'react-confirm-alert'; 
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
 const NewPassword = () => {
   const { id } = useParams();
@@ -21,6 +24,7 @@ const NewPassword = () => {
   const [error, setError] = useState(null);
   const [selectedId, setSelectedApp] = useState(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Obtiene el objeto navigate
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,6 +107,21 @@ const NewPassword = () => {
   
       const data = await response.json();
       console.log('Contraseña y información del usuario guardadas exitosamente:', data);
+      
+      //ALERT
+      confirmAlert({
+        title: 'Password saved!',
+        message: 'You can see it in your main menu.',
+        buttons: [
+          {
+            label: 'OK',
+            onClick: () => {
+              console.log('Click OK');
+              navigate(`/home/${id}`); 
+            }
+          }
+        ]
+      });
     } catch (error) {
       setError(`Error al guardar la contraseña y la información del usuario: ${error.message}`);
       console.error('Error al guardar la contraseña y la información del usuario:', error);
@@ -131,6 +150,7 @@ const NewPassword = () => {
         <Col xs={12} md={6}>
           <Form className='createPasswordForm'>
           <Form.Select
+            className='SelectImput'
             aria-label="Select social network"
             value={selectedSocialNetwork}
             onChange={handleSocialNetworkChange}
@@ -174,10 +194,11 @@ const NewPassword = () => {
             </Form.Group>
 
             <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
-            
-            <Button style={{marginTop:"1rem"}} variant="primary" onClick={handleSavePassword}>
+            <div className='btnSave' style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+            <Button style={{ marginTop:"1rem", width:"5rem"}} variant="primary" onClick={handleSavePassword}>
               Save
             </Button>
+            </div>
           </Form>
         </Col>
       </Row>

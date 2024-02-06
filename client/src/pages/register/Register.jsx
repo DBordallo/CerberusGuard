@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useAuth } from '../../authcontext/AuthContext';
 import HeaderLogo from '../../components/headerLogo/HeaderLogo';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { confirmAlert } from 'react-confirm-alert'; // Importa confirmAlert
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Importa css
 import "./Register.css"
 
 const Register = () => {
@@ -15,6 +17,7 @@ const Register = () => {
     user_email: "",
     user_password: ""
   });
+  const navigate = useNavigate(); // Obtiene el objeto navigate
 
   const handleImageChange = (e) => {
     const imageFile = e.target.files[0];
@@ -47,7 +50,21 @@ const Register = () => {
 
     try {
       await signup(formData.profile_img, formData.user_name, formData.user_telephone, formData.user_email, formData.user_password);
-      console.log('Registro exitoso');
+      console.log('You have successfully registered');
+      // ALERT
+      confirmAlert({
+        title: 'You have successfully registered',
+        message: 'You are now safer!',
+        buttons: [
+          {
+            label: 'OK',
+            onClick: () => {
+              console.log('Click OK');
+              navigate('/'); 
+            }
+          }
+        ]
+      });
     } catch (error) {
       console.error('Error en el registro',  error.response.data)
     }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Button, Form } from "react-bootstrap";
 import Nav from "../Nav/Nav";
 import "./editaccount.css";
@@ -7,9 +7,12 @@ import homeGray from "../../assets/homeGray.png";
 import passwordGray from "../../assets/passwordGray.png";
 import profileGray from "../../assets/profileGray.png";
 import PasswordGenerator from "../passwordGenerator/PasswordGenerator";
+import { confirmAlert } from 'react-confirm-alert'; // Importa confirmAlert
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Importa css
 
 const EditAccount = () => {
   const { id } = useParams();
+  const history = useNavigate(); // Obtiene el objeto history
   const [accountData, setAccountData] = useState({});
   const [updatedData, setUpdatedData] = useState({
     name: "",
@@ -75,8 +78,21 @@ const EditAccount = () => {
       });
 
       if (response.ok) {
-        console.log("Cuenta actualizada con éxito");
-        // Puedes redirigir al usuario a la página de detalles de la cuenta después de la actualización
+        console.log("Updated data");
+        // ALERT
+        confirmAlert({
+          title: 'Updated data',
+          message: 'Data has been updated successfully.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {
+                console.log('Click OK');
+                history.push(`/home/${id}`); 
+              }
+            }
+          ]
+        });
       } else {
         console.error("Error al actualizar la cuenta:", response.statusText);
       }

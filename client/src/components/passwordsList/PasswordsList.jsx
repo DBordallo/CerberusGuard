@@ -6,6 +6,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import eye from "../../assets/eye.png";
 import closeeye from '../../assets/closeeye.png';
+import deletes from '../../assets/delete.png';
+import edit from '../../assets/edit.png';
+
 
 const PasswordList = () => {
   const { isUserAdmin } = useAuth();
@@ -88,7 +91,7 @@ const PasswordList = () => {
     <div className="containerList">
       <h2>My Passwords</h2>
       {userAccounts.length === 0 ? (
-        <p>No tienes cuentas asignadas. <Link to={`/addaccount/${userData?.user?.id}`}>Registra cuentas para verlas aquí.</Link> </p>
+        <p style={{ textAlign: 'center' }}>No saved passwords. <br/><Link to={`/addaccount/${userData?.user?.id}`}>Click here to start saving your passwords.</Link> </p>
       ) : (
         <>
           <ul className="listPass">
@@ -115,11 +118,10 @@ const PasswordList = () => {
                         </div>
                         <div className="allBtn">
                         <Button className="editbtn" variant="outline-secondary" onClick={() => handleEdit(account.id)}>
-                          Edit
+                        <img className ="editimg"  src={edit} alt="edit" />
                         </Button>
                         <Button className="editbtn" variant="outline-danger" onClick={() => handleDelete(account.id)}>
-                          
-                          Delete
+                        <img className ="deleteimg"  src={deletes} alt="delete" />
                         </Button>
                         <Button className="editbtn"
   variant="outline-info"
