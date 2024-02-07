@@ -17,7 +17,7 @@ function Profile() {
         try {
           const result = await isUserAdmin();
           if (result) {
-            const userDetailsResponse = await fetch(`http://localhost:6700/cerberus/users/${result.user.id}`);
+            const userDetailsResponse = await fetch(`https://backend-cerberus.onrender.com/cerberus/users/${result.user.id}`);
             if (!userDetailsResponse.ok) {
               console.error('Error fetching user details');
               return;

@@ -45,7 +45,7 @@ const NewPassword = () => {
 
     fetchData();
 
-    fetch('http://localhost:6700/cerberus/preaccounts/')
+    fetch('https://backend-cerberus.onrender.com/cerberus/preaccounts/')
       .then(response => response.json())
       .then(data => {
         setSocialNetworks(data);
@@ -85,7 +85,7 @@ const NewPassword = () => {
       (selectedSocialNetwork)
   
 
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
+      const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/accounts/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

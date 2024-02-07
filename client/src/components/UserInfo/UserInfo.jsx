@@ -14,7 +14,7 @@
         
                 if (result) {
         
-                  const userDetailsResponse = await fetch(`http://localhost:6700/cerberus/users/${result.user.id}`);
+                  const userDetailsResponse = await fetch(`https://backend-cerberus.onrender.com/cerberus/users/${result.user.id}`);
                   if (!userDetailsResponse.ok) {
                     console.error('Error al obtener la información del usuario');
                     return;

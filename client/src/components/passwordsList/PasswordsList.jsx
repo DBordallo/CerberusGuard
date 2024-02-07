@@ -26,7 +26,7 @@ const PasswordList = () => {
         if (result) {
           setUserData(result);
           const appsResponse = await fetch(
-            `http://localhost:6700/cerberus/accounts/acc/${result.user.id}`
+            `https://backend-cerberus.onrender.com/cerberus/accounts/acc/${result.user.id}`
           );
           if (appsResponse.ok) {
             const accountsData = await appsResponse.json();
@@ -59,7 +59,7 @@ const PasswordList = () => {
 
   const handleDelete = async (accountId) => {
     try {
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/${accountId}`, {
+      const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/accounts/${accountId}`, {
         method: 'DELETE',
       });
 

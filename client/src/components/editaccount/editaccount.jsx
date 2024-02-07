@@ -27,7 +27,7 @@ const EditAccount = () => {
 
   const handleSavePassword = async () => {
     try {
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/${id}`, {
+      const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/accounts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const EditAccount = () => {
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
-        const response = await fetch(`http://localhost:6700/cerberus/accounts/${id}`);
+        const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/accounts/${id}`);
         if (response.ok) {
           const data = await response.json();
           setAccountData(data);
@@ -69,7 +69,7 @@ const EditAccount = () => {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(`http://localhost:6700/cerberus/accounts/${id}`, {
+      const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/accounts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
