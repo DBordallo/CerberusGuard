@@ -49,7 +49,7 @@ const NewPassword = () => {
       .then(response => response.json())
       .then(data => {
         setSocialNetworks(data);
-        console.log('Social Networks:', data);
+        ('Social Networks:', data);
       })
       .catch(error => {
         console.error('Error fetching social networks:', error);
@@ -62,7 +62,7 @@ const NewPassword = () => {
 
   const handleSocialNetworkChange = (e) => {
     const selectedId = e.target.value;
-    console.log('Selected ID:', selectedId);
+    ('Selected ID:', selectedId);
   
     // Maneja el caso en que la red social es 'other'
     if (selectedId === 'other') {
@@ -71,7 +71,7 @@ const NewPassword = () => {
       setSelectedApp(selectedId);
     }
   
-    console.log('Selected App:', selectedId); // Agrega este console.log para verificar selectedId
+    ('Selected App:', selectedId); // Agrega este  para verificar selectedId
   };
   
   const handleSavePassword = async () => {
@@ -80,9 +80,9 @@ const NewPassword = () => {
         throw new Error('No se pudo obtener el ID del usuario o la aplicación seleccionada');
       }
   
-      console.log('userId:', userId);
-      console.log('selectedId:', selectedId); 
-      console.log(selectedSocialNetwork)
+      ('userId:', userId);
+      ('selectedId:', selectedId); 
+      (selectedSocialNetwork)
   
 
       const response = await fetch(`http://localhost:6700/cerberus/accounts/`, {
@@ -106,7 +106,7 @@ const NewPassword = () => {
       }
   
       const data = await response.json();
-      console.log('Contraseña y información del usuario guardadas exitosamente:', data);
+      ('Contraseña y información del usuario guardadas exitosamente:', data);
       
       //ALERT
       confirmAlert({
@@ -116,7 +116,7 @@ const NewPassword = () => {
           {
             label: 'OK',
             onClick: () => {
-              console.log('Click OK');
+              ('Click OK');
               navigate(`/home/${id}`); 
             }
           }

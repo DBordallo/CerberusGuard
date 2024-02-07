@@ -24,7 +24,7 @@ function MiComponente() {
 
     useEffect(() => {
     isUserAdmin().then(result => {
-      console.log("Result from isUserAdmin:", result);
+      ("Result from isUserAdmin:", result);
         if (result && result.user && result.user.roles) {
           setCondicion(result.user);
         } else {

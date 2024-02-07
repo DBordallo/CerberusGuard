@@ -21,7 +21,7 @@ const Login = () => {
     try {
       const token = await login(formData.user_email, formData.user_password);
 
-      console.log( token);
+      ( token);
 
       if (token) {
         const result = await isUserAdmin();
@@ -36,13 +36,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log("Condicion:", condicion);
+    ("Condicion:", condicion);
     if (condicion && condicion.roles && condicion.id) {
       if (condicion.roles === "admin") {
-        console.log("Redirecting to /guard");
+        ("Redirecting to /guard");
         navigate("/guard");
       } else if (condicion.roles === "user") {
-        console.log("Redirecting to /home/", condicion.id);
+        ("Redirecting to /home/", condicion.id);
         navigate(`/home/${condicion.id}`);
       }
     }

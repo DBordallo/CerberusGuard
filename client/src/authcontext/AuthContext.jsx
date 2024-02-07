@@ -64,8 +64,8 @@ const login = async (user_email, user_password) => {
 
      const { token: receivedToken } = await response.json();
      document.cookie = `token=${receivedToken}; path=/`;
-     console.log(document.cookie);
-     console.log("Received token:", receivedToken);
+     (document.cookie);
+     ("Received token:", receivedToken);
      return receivedToken;
   } catch (error) {
      console.error(error);
@@ -78,7 +78,7 @@ const login = async (user_email, user_password) => {
 const isUserAdmin = async () => {
    try {
      const cookieString = document.cookie;
-     console.log('Cookie String:', cookieString);
+     ('Cookie String:', cookieString);
  
      const token = cookieString
        .split('; ')
@@ -86,7 +86,7 @@ const isUserAdmin = async () => {
          const trimmedCookie = cookie.trim();
          if (trimmedCookie.startsWith('token=')) {
             const tokenValue = trimmedCookie.substring('token='.length);
-            console.log('Token Value:', tokenValue);
+            ('Token Value:', tokenValue);
             return tokenValue;
           }
          return '';
@@ -94,8 +94,8 @@ const isUserAdmin = async () => {
        .filter(Boolean)
        .join('; ');
  
-     console.log('Extracted Token:', token);
-     console.log('All Cookies:', document.cookie);
+     ('Extracted Token:', token);
+     ('All Cookies:', document.cookie);
  
      const response = await fetch('http://localhost:6700/cerberus/users/role', {
        method: 'POST',
@@ -106,15 +106,15 @@ const isUserAdmin = async () => {
        body: JSON.stringify({ token: token }),
      });
  
-     console.log('Request Payload:', JSON.stringify({ token: token }));
-     console.log('Request Headers:', {
+     ('Request Payload:', JSON.stringify({ token: token }));
+     ('Request Headers:', {
        'Content-Type': 'application/json',
        'Authorization': `${token}`,
      });
  
      if (response.ok) {
        const data = await response.json();
-       console.log(data);
+       (data);
        return data;
      } else {
        console.error('Error details:', response.statusText);

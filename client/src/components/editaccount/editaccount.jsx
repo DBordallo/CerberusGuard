@@ -39,7 +39,7 @@ const EditAccount = () => {
       });
 
       if (response.ok) {
-        console.log("Contraseña actualizada con éxito");
+        ("Contraseña actualizada con éxito");
         // Puedes manejar el éxito de la actualización aquí
       } else {
         console.error("Error al actualizar la contraseña:", response.statusText);
@@ -78,7 +78,7 @@ const EditAccount = () => {
       });
 
       if (response.ok) {
-        console.log("Updated data");
+        ("Updated data");
         // ALERT
         confirmAlert({
           title: 'Updated data',
@@ -87,7 +87,7 @@ const EditAccount = () => {
             {
               label: 'OK',
               onClick: () => {
-                console.log('Click OK');
+                ('Click OK');
                 history(`/home/${id}`); 
               }
             }
@@ -101,7 +101,7 @@ const EditAccount = () => {
             {
               label: 'OK',
               onClick: () => {
-                console.log('Click OK');
+                ('Click OK');
                 history(`/home/${id}`); 
               }
             }

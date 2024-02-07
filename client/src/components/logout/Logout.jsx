@@ -12,9 +12,9 @@ function Logout({ condicion }) {
     let currentCondicion;
     try {
       await logout();
-      console.log('Logout successful');
+      ('Logout successful');
       currentCondicion = condicion;
-      console.log("Condicion after logout:", currentCondicion);
+      ("Condicion after logout:", currentCondicion);
     } catch (error) {
       console.error('Error during logout:', error.message);
     } finally {

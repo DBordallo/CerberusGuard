@@ -29,13 +29,13 @@ const Register = () => {
   
       const newFormData = { ...formData, profile_img: base64String };
       setFormData(newFormData);
-      console.log('Imagen convertida a base64:', base64String); // Agregado para depuración
+      ('Imagen convertida a base64:', base64String); // Agregado para depuración
     };
   
     if (imageFile) {
       reader.readAsDataURL(imageFile);
     } else {
-      console.log('No se seleccionó ningún archivo'); // Agregado para depuración
+      ('No se seleccionó ningún archivo'); // Agregado para depuración
     }
   };
   
@@ -50,7 +50,7 @@ const Register = () => {
 
     try {
       await signup(formData.profile_img, formData.user_name, formData.user_telephone, formData.user_email, formData.user_password);
-      console.log('You have successfully registered');
+      ('You have successfully registered');
       // ALERT
       confirmAlert({
         title: 'You have successfully registered',
@@ -59,7 +59,7 @@ const Register = () => {
           {
             label: 'OK',
             onClick: () => {
-              console.log('Click OK');
+              ('Click OK');
               navigate('/'); 
             }
           }

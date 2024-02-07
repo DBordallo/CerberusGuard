@@ -22,7 +22,7 @@
         
                   const userDetailsData = await userDetailsResponse.json();
                   setUserData(userDetailsData)
-                  console.log('Información del usuario:', userDetailsData);
+                  ('Información del usuario:', userDetailsData);
                 } else {
                   console.error('Error al obtener los datos de usuario');
                 }
