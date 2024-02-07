@@ -88,12 +88,25 @@ const EditAccount = () => {
               label: 'OK',
               onClick: () => {
                 console.log('Click OK');
-                history.push(`/home/${id}`); 
+                history(`/home/${id}`); 
               }
             }
           ]
         });
       } else {
+        confirmAlert({
+          title: 'Updated data',
+          message: 'Data has been updated successfully.',
+          buttons: [
+            {
+              label: 'OK',
+              onClick: () => {
+                console.log('Click OK');
+                history(`/home/${id}`); 
+              }
+            }
+          ]
+        });
         console.error("Error al actualizar la cuenta:", response.statusText);
       }
     } catch (error) {
@@ -137,9 +150,7 @@ const EditAccount = () => {
         </Form.Group>
         <PasswordGenerator onGeneratePassword={handleGeneratePassword} />
         <div className="SaveUpdate">
-          <Button style={{ marginTop: "1rem" }} variant="primary" onClick={handleSavePassword}>
-            Save
-          </Button>
+
           <Button style={{ marginTop: "1rem" }} variant="primary" onClick={handleUpdate}>
             Update
           </Button>
