@@ -11,7 +11,7 @@ function CerberusDetails() {
   useEffect(() => {
       const getUserData = async () => {
           try {
-              const response = await fetch(`http://localhost:6700/cerberus/users/${userId}`);
+              const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/users/${userId}`);
               if (!response.ok) {
                   console.error('Error al obtener los datos de usuario');
                      return;

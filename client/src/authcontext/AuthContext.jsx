@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
 
  const signup = async (profile_img, user_name, user_telephone, user_email, user_password) => {
    try {
-     const response = await fetch('http://localhost:6700/cerberus/auth/register', {
+     const response = await fetch('https://backend-cerberus.onrender.com/cerberus/auth/register', {
        method: "POST",
        headers: { "Content-Type": "application/json" },
        body: JSON.stringify({ profile_img, user_name, user_telephone, user_email, user_password }),
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 
 const logout = async () => {
   try {
-     const response = await fetch('http://localhost:6700/cerberus/auth/logout', { method: "POST" });
+     const response = await fetch('https://backend-cerberus.onrender.com/cerberus/auth/logout', { method: "POST" });
 
      if (!response.ok) {
         throw new Error(`Failed to logout: ${response.status}`);
@@ -52,7 +52,7 @@ const logout = async () => {
 
 const login = async (user_email, user_password) => {
   try {
-     const response = await fetch('http://localhost:6700/cerberus/auth/login', {
+     const response = await fetch('https://backend-cerberus.onrender.com/cerberus/auth/login', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_email, user_password }),
@@ -97,7 +97,7 @@ const isUserAdmin = async () => {
      ('Extracted Token:', token);
      ('All Cookies:', document.cookie);
  
-     const response = await fetch('http://localhost:6700/cerberus/users/role', {
+     const response = await fetch('https://backend-cerberus.onrender.com/cerberus/users/role', {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ const isUserAdmin = async () => {
 useEffect(() => {
   const getUser = async () => {
      try {
-        const response = await fetch('http://localhost:6700/cerberus/users');
+        const response = await fetch('https://backend-cerberus.onrender.com/cerberus/users');
 
         if (!response.ok) {
            throw new Error(`Failed to fetch user data: ${response.status}`);

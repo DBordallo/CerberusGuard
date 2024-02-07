@@ -13,7 +13,7 @@ const UsersList = () => {
   useEffect(() => {
     const getUsers = async () => {
       try {
-        const response = await fetch("http://localhost:6700/cerberus/users");
+        const response = await fetch("https://backend-cerberus.onrender.com/cerberus/users");
         if (!response.ok) {
           console.error("Error al obtener los usuarios");
           return;

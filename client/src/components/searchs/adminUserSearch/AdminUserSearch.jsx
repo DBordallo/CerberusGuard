@@ -8,7 +8,7 @@ const AdminUserSearch = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost:6700/cerberus/users/${userId}`);
+      const response = await fetch(`https://backend-cerberus.onrender.com/cerberus/users/${userId}`);
       const data = await response.json();
       setSearchResults(data);
     } catch (error) {
