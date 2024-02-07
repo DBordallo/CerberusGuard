@@ -114,13 +114,12 @@ const PasswordList = () => {
                         <img className ="deleteimg"  src={deletes} alt="delete" />
                         </Button>
                         <Button className="editbtn"
-  variant="outline-info"
-  onClick={() => copyPasswordToClipboard(account.password)}
->
-  Copy
-</Button>
-</div>
-
+                          variant="outline-info"
+                          onClick={() => copyPasswordToClipboard(account.password)}
+                        >
+                          Copy
+                        </Button>
+                        </div>
                       </>
                     )}
                   </div>
