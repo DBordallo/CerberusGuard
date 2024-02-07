@@ -17,7 +17,7 @@ function HomeCerberus() {
     <container className="headerSearch">
     <Image src={cerberusLogo}  className="cerberusLogo" />
         <AdminUserSearch/>
-        <Logout condicion={condicion}/>
+        <Logout />
         <h3>Users</h3>
         <div className='appType'>
         </div>

@@ -40,6 +40,8 @@ const logout = async () => {
         throw new Error(`Failed to logout: ${response.status}`);
      }
 
+     document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
      //const data = await response.json();
      setUser(null);
   } catch (error) {

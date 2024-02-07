@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAuth } from '../../authcontext/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import logouts from '../../assets/logout.png'
+
 
 function Logout({ condicion }) {
   const { logout } = useAuth();
@@ -21,8 +23,10 @@ function Logout({ condicion }) {
   };
 
   return (
-    <button onClick={handleLogout}>
-      Logout
+    <button onClick={handleLogout} >
+    Logout
+      <img className ="logout"  src={logouts} alt="logout" />
+      
     </button>
   );
 }

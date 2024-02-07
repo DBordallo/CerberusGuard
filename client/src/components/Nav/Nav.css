@@ -10,3 +10,8 @@
     align-items: center;
     align-content: center;
 }
+
+.containerFooter {
+    min-height: calc(20vh - 1vh); /* Altura del viewport menos la altura del footer */
+    padding-bottom: 1rem; /* Ajusta esto si necesitas espacio entre el contenido y el footer */
+  }

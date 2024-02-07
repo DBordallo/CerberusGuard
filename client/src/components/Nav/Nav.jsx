@@ -37,6 +37,7 @@ function Nav({home, password, profile}){
     return null;
   }
     return(
+      <div className="containerFooter">
     <nav className="navBar">
       <Link to={`/home/${userData.user.id}`} className="navButton homeButton">
         <img className="buttonImg" src={home} alt="Image of the Home Icon" />
@@ -48,6 +49,7 @@ function Nav({home, password, profile}){
         <img className="buttonImg" src={profile} alt="Image of the Profile Icon" />
       </Link>
     </nav>
+    </div>
     )
 }
 

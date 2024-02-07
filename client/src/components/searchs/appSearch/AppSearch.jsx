@@ -6,29 +6,33 @@ import "./AppSearch.css"
 const AppSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [error, setError] = useState(null);
 
   const handleSearch = async () => {
     try {
+      setError(null); // Limpiar el error anterior
       const response = await fetch(`/api/passwords?app=${searchTerm}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
       const data = await response.json();
       setSearchResults(data);
     } catch (error) {
       console.error('Error fetching data:', error);
+      setError('Error fetching data. Please try again later.');
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
     }
   };
 
   return (
     <div>
       <h2 style={{textAlign:"center"}}>Password Manager</h2>
-      <input
-        className='searchImput'
-        type="text"
-        placeholder="Search by app name"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <button className="lupaBtn" onClick={handleSearch}><Image src={lupa}  className="lupa" /></button>
-
+     
       <ul>
         {searchResults.map((password) => (
           <li key={password.id}>
