@@ -35,21 +35,6 @@ const UsersList = () => {
     return usersList.slice(startIndex, endIndex);
   };
 
-  const handleDeleteUser = async (userId) => {
-    try {
-      const response = await fetch(`http://localhost:6700/cerberus/users/${userId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        setUsersList(usersList.filter(user => user.id !== userId));
-      } else {
-        console.error('Error deleting user:', response.statusText);
-      }
-    } catch (error) {
-      console.error('Error deleting user:', error);
-    }
-  };
 
   return (
     <div className="containerListGuard">
@@ -63,7 +48,6 @@ const UsersList = () => {
                 <p className="namePasslistGuard">{user.user_name}</p>
                 <p className="emailPasslist">{user.user_email}</p>
               </div>
-              <button className="editbtn" onClick={() => handleDeleteUser(user.id)}>                        <img className ="deleteimg"  src={deletes} alt="delete" /></button>
             </div>
           </li>
         ))}
